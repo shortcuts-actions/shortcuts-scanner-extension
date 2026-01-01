@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Shortcuts Scanner",
+  "version": "1.0.0",
+  "description": "View, inspect, and download XML for Apple Shortcuts from iCloud.com",
+  "permissions": [
+    "sidePanel",
+    "activeTab",
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://www.icloud.com/*",
+    "https://*.icloud-content.com/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://openrouter.ai/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; connect-src 'self' https://www.icloud.com https://*.icloud-content.com https://api.openai.com https://api.anthropic.com https://openrouter.ai; form-action 'none'; frame-ancestors 'none'"
+  },
+  "background": {
+    "service_worker": "src/background/background.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.icloud.com/shortcuts/*"],
+      "js": ["src/content/content.ts"],
+      "run_at": "document_idle"
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open Shortcuts Scanner"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
