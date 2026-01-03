@@ -1,14 +1,14 @@
 # Privacy Policy for Shortcuts Scanner
 
 **Effective Date:** December 29, 2025
-**Last Updated:** December 29, 2025
-**Version:** 1.0.0
+**Last Updated:** January 2, 2026
+**Version:** 1.0.1
 
 ---
 
 ## Introduction
 
-Shortcuts Scanner ("the Extension", "we", "our") is a Chrome browser extension that allows users to view, inspect, and analyze Apple Shortcuts from iCloud.com. We are committed to protecting your privacy and being transparent about our data practices.
+Shortcuts Scanner ("the Extension", "we", "our") is a free, open-source Chrome extension that allows users to view, inspect, download, and perform AI-powered security analysis for Apple Shortcuts from iCloud.com. We are committed to protecting your privacy and being transparent about our data practices.
 
 This Privacy Policy explains what information the Extension collects, how it is used, and your rights regarding that information.
 
@@ -30,22 +30,16 @@ The Extension stores the following data locally in your browser:
    - Your selected AI provider and model preferences
    - Stored in browser localStorage
 
-3. **Session Settings**
+3. **Analysis Results Cache**
+   - AI security analysis results are cached locally to avoid redundant API calls
+   - Results are keyed by shortcut URL
+   - Stored in browser localStorage
+   - Can be cleared manually via the Extension interface
+
+4. **Session Settings**
    - Session timeout preferences (5-360 minutes)
    - Device binding configuration
    - Stored in browser localStorage
-
-### Data Stored Temporarily in Memory
-
-1. **Cached Shortcuts**
-   - Shortcut data is cached in memory for performance
-   - Cache expires after 2 minutes (TTL)
-   - Cleared when you close the browser tab
-
-2. **Analysis Results**
-   - AI security analysis results are not persisted
-   - Stored only in memory during your session
-   - Cleared when you close the browser tab
 
 ### Data We Do NOT Collect
 
@@ -54,6 +48,8 @@ The Extension stores the following data locally in your browser:
 - **No user identification** - We do not create accounts or track users across sessions
 - **No browsing history** - We do not access or store your browsing history
 - **No personal information** - We do not collect names, emails, or any personally identifiable information
+- **No Cookies** - We do not use cookies, tracking pixels, or any similar 
+tracking technologies.
 
 ---
 
@@ -119,8 +115,8 @@ The Extension integrates with the following third-party services. When you use t
 
 All data remains on your device:
 - Chrome's `chrome.storage.local` for encrypted API keys
-- Browser `localStorage` for preferences
-- Browser memory for temporary cache and analysis results
+- Browser `localStorage` for preferences and analysis results cache
+- Browser memory for temporary shortcut cache
 
 ---
 
@@ -130,9 +126,9 @@ All data remains on your device:
 |-----------|------------------|---------------|
 | Encrypted API Keys | Until you manually delete them | Settings > Delete API Key |
 | Model Preferences | Until you manually clear them | Clear browser localStorage |
+| Analysis Results Cache | Until you manually clear them | Extension interface or clear browser localStorage |
 | Session Settings | Until you manually clear them | Clear browser localStorage |
 | Cached Shortcuts | 2 minutes (auto-expires) | Close browser tab |
-| Analysis Results | Session only | Close browser tab |
 
 ---
 
@@ -185,7 +181,7 @@ We encourage you to review this Privacy Policy periodically for any changes.
 
 If you have questions about this Privacy Policy or the Extension's data practices:
 
-- **GitHub Issues**: [Report an issue](https://github.com/shortcut-actions/shortcuts-inspector-extension/issues)
+- **GitHub Issues**: [Report an issue](https://github.com/shortcut-actions/shortcuts-scanner-extension/issues)
 
 ---
 

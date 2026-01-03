@@ -73,7 +73,7 @@ Your API keys are encrypted locally using AES-256-GCM with PBKDF2 key derivation
 
 1. **Clone the repository**:
    ```bash
-   cd /shortcuts-inspector-extension
+   cd /shortcuts-scanner-extension
    ```
 
 2. **Install dependencies**:
