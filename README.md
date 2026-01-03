@@ -243,8 +243,6 @@ After fixing issues, run `npm run build` again.
 
 ## Known Limitations
 
-- Only works with **unsigned shortcuts** or shortcuts that have an unsigned version available
-- **Signed shortcuts** (iOS 15+) may not be downloadable via the API
 - Requires the shortcut to be publicly accessible on iCloud.com
 - Does not support converting XML back to binary plist
 
