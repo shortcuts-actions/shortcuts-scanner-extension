@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Shortcuts Scanner",
   "version": "1.0.0",
-  "description": "View, inspect, and download XML for Apple Shortcuts from iCloud.com",
+  "description": "View, inspect, download and perform AI-powered security analysis for Apple Shortcuts from iCloud.com",
   "permissions": [
     "sidePanel",
     "activeTab",
