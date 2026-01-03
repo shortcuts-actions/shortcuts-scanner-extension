@@ -1,7 +1,7 @@
 // Zustand store for security analysis state management
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import type {
   AnalysisError,
   AnalysisMode,
@@ -149,10 +149,33 @@ export const useAnalysisStore = create<AnalysisStore>()(
     }),
     {
       name: 'analysis-store',
+      storage: createJSONStorage(() => localStorage, {
+        replacer: (_key, value) => {
+          // Convert Map to array for JSON serialization
+          if (value instanceof Map) {
+            return { __type: 'Map', entries: Array.from(value.entries()) };
+          }
+          return value;
+        },
+        reviver: (_key, value) => {
+          // Convert array back to Map on deserialization
+          if (
+            value &&
+            typeof value === 'object' &&
+            (value as { __type?: string }).__type === 'Map'
+          ) {
+            return new Map(
+              (value as { entries: [string, AnalysisResult | QuickScanResult][] }).entries,
+            );
+          }
+          return value;
+        },
+      }),
       partialize: (state) => ({
         modelPreferences: state.modelPreferences,
         selectedProvider: state.selectedProvider,
         selectedModel: state.selectedModel,
+        resultCache: state.resultCache,
       }),
     },
   ),
