@@ -16,9 +16,9 @@
     "https://api.anthropic.com/*",
     "https://openrouter.ai/*"
   ],
-  "homepage_url": "https://github.com/shortcut-actions/shortcuts-scanner-extension",
+  "homepage_url": "https://github.com/shortcuts-actions/shortcuts-scanner-extension",
   "privacy_policy": {
-    "url": "https://github.com/shortcut-actions/shortcuts-scanner-extension/blob/main/PRIVACY_POLICY.md"
+    "url": "https://github.com/shortcuts-actions/shortcuts-scanner-extension/blob/main/PRIVACY_POLICY.md"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; connect-src 'self' https://www.icloud.com https://*.icloud-content.com https://api.openai.com https://api.anthropic.com https://openrouter.ai; form-action 'none'; frame-ancestors 'none'"

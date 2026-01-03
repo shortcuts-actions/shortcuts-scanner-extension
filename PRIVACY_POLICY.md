@@ -181,7 +181,7 @@ We encourage you to review this Privacy Policy periodically for any changes.
 
 If you have questions about this Privacy Policy or the Extension's data practices:
 
-- **GitHub Issues**: [Report an issue](https://github.com/shortcut-actions/shortcuts-scanner-extension/issues)
+- **GitHub Issues**: [Report an issue](https://github.com/shortcuts-actions/shortcuts-scanner-extension/issues)
 
 ---
 
