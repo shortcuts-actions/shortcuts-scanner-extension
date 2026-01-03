@@ -106,8 +106,7 @@ Then load the `dist` folder as an unpacked extension. The extension will rebuild
    - Go to any shortcut on iCloud.com (e.g., `https://www.icloud.com/shortcuts/abc123...`)
 
 2. **Open the Side Panel**:
-   - The side panel should open automatically when a shortcut is detected
-   - Or click the extension icon in the toolbar to manually open it
+   - Click the extension icon in the toolbar to open the side panel
 
 3. **Explore the Shortcut**:
    - **Overview Tab**: See general info like action count, client version, etc.

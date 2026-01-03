@@ -10,7 +10,7 @@
     "alarms"
   ],
   "host_permissions": [
-    "https://www.icloud.com/*",
+    "https://www.icloud.com/shortcuts/*",
     "https://*.icloud-content.com/*",
     "https://api.openai.com/*",
     "https://api.anthropic.com/*",
