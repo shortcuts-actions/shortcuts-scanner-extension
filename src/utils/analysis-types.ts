@@ -20,37 +20,92 @@ export const SUPPORTED_MODELS: Record<SupportedProvider, ModelInfo[]> = {
   ],
   anthropic: [
     {
-      id: 'claude-sonnet-4-20250514',
+      id: 'claude-sonnet-4-5',
+      name: 'Claude Sonnet 4.5',
+      description: 'Best balance of speed and capability. Latest model.',
+    },
+    {
+      id: 'claude-opus-4-5',
+      name: 'Claude Opus 4.5',
+      description: 'Most capable, best for deep analysis. Latest model.',
+    },
+    {
+      id: 'claude-sonnet-4-0',
       name: 'Claude Sonnet 4',
       description: 'Best balance of speed and capability',
     },
     {
-      id: 'claude-opus-4-20250514',
-      name: 'Claude Opus 4',
+      id: 'claude-opus-4-1',
+      name: 'Claude Opus 4.1',
       description: 'Most capable, best for deep analysis',
     },
     {
-      id: 'claude-3-5-haiku-20241022',
-      name: 'Claude 3.5 Haiku',
+      id: 'claude-haiku-4-5',
+      name: 'Claude 4.5 Haiku',
       description: 'Fast and cost-effective',
     },
   ],
   openrouter: [
     {
-      id: 'anthropic/claude-sonnet-4-20250514',
-      name: 'Claude Sonnet 4',
+      id: 'anthropic/claude-sonnet-4-5',
+      name: 'Claude Sonnet 4.5',
       description: 'Best balance of speed and capability',
     },
     {
-      id: 'anthropic/claude-opus-4-20250514',
-      name: 'Claude Opus 4',
+      id: 'anthropic/claude-opus-4-5',
+      name: 'Claude Opus 4.5',
       description: 'Most capable, best for deep analysis',
     },
     { id: 'openai/gpt-4o', name: 'GPT-4o', description: 'Most capable OpenAI model' },
     {
-      id: 'google/gemini-2.0-flash-001',
+      id: 'openai/gpt-4o-mini',
+      name: 'GPT-4o Mini',
+      description: 'Fast and cost-effective OpenAI model',
+    },
+    {
+      id: 'google/gemini-2.0-flash-exp',
       name: 'Gemini 2.0 Flash',
       description: 'Fast Google model',
+    },
+    {
+      id: 'google/gemini-pro-1.5',
+      name: 'Gemini Pro 1.5',
+      description: 'Capable Google model',
+    },
+    {
+      id: 'deepseek/deepseek-v3.2',
+      name: 'DeepSeek v3.2',
+      description: 'Capable DeepSeek model',
+    },
+    {
+      id: 'qwen/qwen3-max',
+      name: 'Qwen3 Max',
+      description: 'High performance Qwen model',
+    },
+    {
+      id: 'meta-llama/llama-3.1-405b',
+      name: 'Llama 3.1',
+      description: 'Large Meta Llama model',
+    },
+    {
+      id: 'meta-llama/llama-3.3-70b-instruct:free',
+      name: 'Llama 3.3 Instruct (Free)',
+      description: 'Free Meta Llama instruct model',
+    },
+    {
+      id: 'deepseek/deepseek-r1-0528:free',
+      name: 'DeepSeek R1 (Free)',
+      description: 'Free DeepSeek model',
+    },
+    {
+      id: 'allenai/olmo-3.1-32b-think:free',
+      name: 'Olmo 3.1 Think (Free)',
+      description: 'Free AllenAI Olmo model',
+    },
+    {
+      id: 'xiaomi/mimo-v2-flash:free',
+      name: 'Mimo v2 Flash (Free)',
+      description: 'Free Xiaomi Mimo model',
     },
   ],
 };
@@ -60,6 +115,9 @@ export const PROVIDER_DISPLAY_NAMES: Record<SupportedProvider, string> = {
   anthropic: 'Anthropic',
   openrouter: 'OpenRouter',
 };
+
+// Special ID for the "Other" custom model option
+export const CUSTOM_MODEL_OPTION_ID = '__custom__';
 
 // ============================================================================
 // Analysis Mode and Risk Types
@@ -221,8 +279,9 @@ export interface ExternalConnection {
 export interface PermissionAnalysis {
   permission: string;
   usedFor: string;
-  necessary: boolean;
-  riskIfAbused: string;
+  alignsWithPurpose: boolean;
+  dataDestination: 'local' | 'shared_via_ios' | 'external_service' | 'unknown';
+  assessment: string;
 }
 
 export interface RedFlag {

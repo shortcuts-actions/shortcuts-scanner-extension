@@ -34,9 +34,15 @@ interface AnalysisTabProps {
   shortcut: ParsedShortcut;
   shortcutUrl: string;
   onOpenSettings: () => void;
+  onHelpOpen: () => void;
 }
 
-export default function AnalysisTab({ shortcut, shortcutUrl, onOpenSettings }: AnalysisTabProps) {
+export default function AnalysisTab({
+  shortcut,
+  shortcutUrl,
+  onOpenSettings,
+  onHelpOpen,
+}: AnalysisTabProps) {
   const {
     providers,
     loading: providersLoading,
@@ -95,12 +101,18 @@ export default function AnalysisTab({ shortcut, shortcutUrl, onOpenSettings }: A
 
   // Set default provider and model if not set
   useEffect(() => {
-    if (!selectedProvider && providers.length > 0) {
-      const firstProvider = providers[0].provider;
-      setSelectedProvider(firstProvider);
-      setSelectedModel(getDefaultModel(firstProvider));
+    if (providers.length > 0) {
+      if (!selectedProvider) {
+        // No provider set - set first available provider and its default model
+        const firstProvider = providers[0].provider;
+        setSelectedProvider(firstProvider);
+        setSelectedModel(getDefaultModel(firstProvider));
+      } else if (!selectedModel) {
+        // Provider is set but model is null - set default model for current provider
+        setSelectedModel(getDefaultModel(selectedProvider));
+      }
     }
-  }, [providers, selectedProvider, setSelectedProvider, setSelectedModel]);
+  }, [providers, selectedProvider, selectedModel, setSelectedProvider, setSelectedModel]);
 
   const handleProviderChange = useCallback(
     (provider: SupportedProvider) => {
@@ -187,7 +199,7 @@ export default function AnalysisTab({ shortcut, shortcutUrl, onOpenSettings }: A
 
   // No providers configured
   if (providers.length === 0) {
-    return <SetupPrompt onOpenSettings={onOpenSettings} />;
+    return <SetupPrompt onOpenSettings={onOpenSettings} onHelpOpen={onHelpOpen} />;
   }
 
   // Session expired error - show unlock form
@@ -198,6 +210,7 @@ export default function AnalysisTab({ shortcut, shortcutUrl, onOpenSettings }: A
           provider={selectedProvider}
           onUnlock={handleUnlock}
           onCancel={() => clearError()}
+          onRefresh={refreshUnlockStatus}
         />
       </VStack>
     );
@@ -273,7 +286,12 @@ export default function AnalysisTab({ shortcut, shortcutUrl, onOpenSettings }: A
     <VStack spacing={4} align="stretch">
       {/* Show unlock form if provider is locked */}
       {selectedProvider && !isUnlocked && (
-        <UnlockForm provider={selectedProvider} onUnlock={handleUnlock} onCancel={() => {}} />
+        <UnlockForm
+          provider={selectedProvider}
+          onUnlock={handleUnlock}
+          onCancel={() => {}}
+          onRefresh={refreshUnlockStatus}
+        />
       )}
 
       <AnalysisControls

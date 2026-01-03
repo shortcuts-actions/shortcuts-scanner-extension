@@ -7,6 +7,10 @@ import {
   Flex,
   Heading,
   HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   useColorModeValue,
   useToast,
@@ -185,15 +189,16 @@ export default function ShortcutHeader({ shortcut, binaryData, apiResponse }: Sh
           >
             .shortcut
           </Button>
-          <Button leftIcon={<DownloadIcon />} onClick={handleDownloadUnsignedShortcut}>
-            .shortcut (unsigned)
-          </Button>
-          <Button leftIcon={<DownloadIcon />} onClick={handleDownloadXML}>
-            XML
-          </Button>
-          <Button leftIcon={<DownloadIcon />} onClick={handleDownloadJSON}>
-            JSON
-          </Button>
+          <Menu>
+            <MenuButton as={Button} leftIcon={<DownloadIcon />}>
+              Download options
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={handleDownloadUnsignedShortcut}>.shortcut (unsigned)</MenuItem>
+              <MenuItem onClick={handleDownloadXML}>XML</MenuItem>
+              <MenuItem onClick={handleDownloadJSON}>JSON</MenuItem>
+            </MenuList>
+          </Menu>
         </ButtonGroup>
       </Flex>
     </Box>

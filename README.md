@@ -1,6 +1,6 @@
-# Shortcuts XML Inspector
+# Shortcuts Scanner
 
-A Chrome extension that allows you to view, inspect, download XML/JSON and perform AI-powered security analysis for Apple Shortcuts directly from iCloud.com.
+Shortcuts Scanner is a Chrome extension that allows you to view, inspect, download and perform AI-powered security analysis for Apple Shortcuts directly from iCloud.com.
 
 ## Features
 
@@ -25,14 +25,14 @@ The extension includes a powerful AI-powered security analysis feature that help
 ### Supported AI Providers
 
 - **OpenAI** (GPT-4o, GPT-4o Mini, GPT-4 Turbo)
-- **Anthropic** (Claude Sonnet 4, Claude Opus 4, Claude 3.5 Haiku)
-- **OpenRouter** (Access to multiple models including Claude and GPT)
+- **Anthropic** (Claude Sonnet 4.5, Claude Opus 4.5, Claude 4.5 Haiku)
+- **OpenRouter** (Models above, Gemini 2.0 Flash, DeepSeek v3.2, Qwen3 Max and Llama 3.1)
 
 ### Analysis Modes
 
-- **Quick Scan**: Fast initial assessment (~30 seconds). Provides a quick risk overview and top concerns.
-- **Standard Analysis**: Comprehensive review (~1-2 minutes). Detailed findings, data flow analysis, and recommendations.
-- **Deep Analysis**: Thorough security audit (~2-3 minutes). Includes adversarial analysis, obfuscation detection, and trust chain review.
+- **Quick Scan**: Fast initial assessment. Provides a quick risk overview and top concerns.
+- **Standard Analysis**: Comprehensive review. Detailed findings, data flow analysis, and recommendations.
+- **Deep Analysis**: Thorough security audit. Includes adversarial analysis, obfuscation detection, and trust chain review.
 
 ### What It Analyzes
 
@@ -232,6 +232,15 @@ npm run build
 
 The built extension will be in the `dist/` folder.
 
+**Note**: The build script runs linting, type checking, and code quality checks before building. If you encounter errors during the build:
+
+- **Linting errors**: Run `npm run lint:fix` to automatically fix linting issues
+- **Code quality errors**: Run `npm run check:fix` to automatically fix formatting and code quality issues
+- **Fix all errors**: Run `npm run fix`
+- **Type errors**: These must be fixed manually - check the output from `npm run type-check`
+
+After fixing issues, run `npm run build` again.
+
 ## Known Limitations
 
 - Only works with **unsigned shortcuts** or shortcuts that have an unsigned version available
@@ -268,4 +277,4 @@ Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for detai
 Made with ❤️ by [Shortcut Actions](https://www.shortcutactions.com)
 
 Download [AI & Automation Actions For Apple Shortcuts](https://apps.apple.com/us/app/ai-automation-for-shortcuts/id6756338677)
-[![Download on the App Store](https://img.shields.io/badge/Download-App%20Store-blue)](https://apps.apple.com/us/app/ai-automation-for-shortcuts/id6756338677)
+[![Download AI & Automation Actions For Shortcuts on the App Store](https://img.shields.io/badge/Download-App%20Store-blue)](https://apps.apple.com/us/app/ai-automation-for-shortcuts/id6756338677)

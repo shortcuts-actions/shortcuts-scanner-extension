@@ -1,7 +1,16 @@
 // Inline unlock form for session expiration
 
-import { LockIcon } from '@chakra-ui/icons';
-import { Badge, Box, Button, HStack, Input, Text, useColorModeValue } from '@chakra-ui/react';
+import { LockIcon, RepeatIcon } from '@chakra-ui/icons';
+import {
+  Badge,
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Input,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { apiKeyManagerService } from '../../../services/api-key-manager.service';
 import { PROVIDER_DISPLAY_NAMES, type SupportedProvider } from '../../../utils/analysis-types';
@@ -10,9 +19,10 @@ interface UnlockFormProps {
   provider: SupportedProvider;
   onUnlock: (apiKey: string) => void;
   onCancel: () => void;
+  onRefresh?: () => void;
 }
 
-export default function UnlockForm({ provider, onUnlock, onCancel }: UnlockFormProps) {
+export default function UnlockForm({ provider, onUnlock, onCancel, onRefresh }: UnlockFormProps) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,6 +86,16 @@ export default function UnlockForm({ provider, onUnlock, onCancel }: UnlockFormP
         >
           Unlock
         </Button>
+        {onRefresh && (
+          <IconButton
+            aria-label="Refresh unlock status"
+            icon={<RepeatIcon />}
+            size="sm"
+            variant="ghost"
+            onClick={onRefresh}
+            title="Already unlocked? Click to refresh"
+          />
+        )}
         <Button size="sm" variant="ghost" onClick={onCancel}>
           Cancel
         </Button>

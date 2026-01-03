@@ -18,6 +18,7 @@ import {
   HStack,
   Icon,
   IconButton,
+  Image,
   Link,
   Spinner,
   Tab,
@@ -109,37 +110,13 @@ function HelpDrawer({ isOpen, onClose }: HelpDrawerProps) {
         </DrawerHeader>
         <DrawerBody>
           <VStack spacing={6} align="stretch">
-            {/* Signing Shortcuts Section */}
-            <Box>
-              <Text fontSize="md" fontWeight="bold" color={headingColor} mb={2}>
-                Signing Shortcuts on macOS
-              </Text>
-              <Text fontSize="sm" color={textColor} mb={3}>
-                Since iOS 15 and macOS 12, shortcuts must be signed before they can be imported. Use
-                the macOS command-line tool to sign unsigned shortcuts:
-              </Text>
-              <Box bg={codeBg} p={3} borderRadius="md" fontFamily="mono" fontSize="xs">
-                <Text mb={1} color={textColor}>
-                  # Sign for anyone to import
-                </Text>
-                <Text fontWeight="medium">
-                  shortcuts sign -m anyone -i "input.shortcut" -o "output.shortcut"
-                </Text>
-              </Box>
-              <Text fontSize="xs" color={textColor} mt={2}>
-                Available modes: <code>anyone</code> or <code>people-who-know-me</code>
-              </Text>
-            </Box>
-
             {/* Scanner Tab Tips */}
             <Box bg={cardBg} p={4} borderRadius="md">
               <Text fontSize="sm" fontWeight="semibold" color={headingColor} mb={2}>
                 Scanner Tab
               </Text>
               <VStack align="start" spacing={2} fontSize="sm" color={textColor}>
-                <Text>
-                  • Uses AI to analyze shortcuts for security risks and privacy concerns
-                </Text>
+                <Text>• Uses AI to analyze shortcuts for security risks and privacy concerns</Text>
                 <Text>
                   • <strong>Quick</strong>: Fast scan for obvious issues (~5 seconds)
                 </Text>
@@ -152,6 +129,43 @@ function HelpDrawer({ isOpen, onClose }: HelpDrawerProps) {
                 </Text>
                 <Text>• Requires an API key from OpenAI, Anthropic, or Google AI</Text>
                 <Text>• API keys are encrypted with AES-256 and stored locally</Text>
+              </VStack>
+            </Box>
+
+            {/* API Key Security */}
+            <Box bg={cardBg} p={4} borderRadius="md">
+              <Text fontSize="sm" fontWeight="semibold" color={headingColor} mb={2}>
+                API Key Security
+              </Text>
+              <VStack align="start" spacing={2} fontSize="sm" color={textColor}>
+                <Text>
+                  • <strong>AES-256-GCM Encryption</strong>: All API keys are encrypted with
+                  industry-standard authenticated encryption
+                </Text>
+                <Text>
+                  • <strong>PBKDF2 Key Derivation</strong>: 800,000 iterations following OWASP 2025
+                  standards
+                </Text>
+                <Text>
+                  • <strong>Device Binding</strong>: Keys are tied to your specific extension
+                  installation and cannot be decrypted on other devices
+                </Text>
+                <Text>
+                  • <strong>Session Management</strong>: Configurable auto-lock with inactivity
+                  timeout
+                </Text>
+                <Text>
+                  • <strong>Rate Limiting</strong>: Protection against brute-force password attacks
+                  with exponential backoff
+                </Text>
+                <Text>
+                  • <strong>Local Storage Only</strong>: Keys never leave your browser and are not
+                  sent to any external servers
+                </Text>
+                <Text fontSize="xs" mt={2} fontStyle="italic">
+                  Your API keys are as secure as your password. Use a strong, unique password for
+                  maximum protection.
+                </Text>
               </VStack>
             </Box>
 
@@ -187,6 +201,27 @@ function HelpDrawer({ isOpen, onClose }: HelpDrawerProps) {
                   • <strong>JSON</strong>: For programmatic processing
                 </Text>
               </VStack>
+
+              <Box mt={4}>
+                <Text fontSize="sm" fontWeight="semibold" color={headingColor} mb={2}>
+                  Signing Shortcuts on macOS
+                </Text>
+                <Text fontSize="sm" color={textColor} mb={3}>
+                  Since iOS 15 and macOS 12, shortcuts must be signed before they can be imported.
+                  Use the macOS command-line tool to sign unsigned shortcuts:
+                </Text>
+                <Box bg={codeBg} p={3} borderRadius="md" fontFamily="mono" fontSize="xs">
+                  <Text mb={1} color={textColor}>
+                    # Sign for anyone to import
+                  </Text>
+                  <Text fontWeight="medium">
+                    shortcuts sign -m anyone -i "input.shortcut" -o "output.shortcut"
+                  </Text>
+                </Box>
+                <Text fontSize="xs" color={textColor} mt={2}>
+                  Available modes: <code>anyone</code> or <code>people-who-know-me</code>
+                </Text>
+              </Box>
             </Box>
 
             {/* Quick Tips */}
@@ -418,9 +453,12 @@ export function TopBar({
       py={2}
     >
       <HStack justify="space-between" spacing={2}>
-        <Text fontSize="md" fontWeight="semibold" color={textColor}>
-          Shortcuts Scanner
-        </Text>
+        <HStack spacing={2}>
+          <Image src="/icons/icont-48.png" alt="Logo" boxSize="24px" />
+          <Text fontSize="md" fontWeight="semibold" color={textColor}>
+            Shortcuts Scanner
+          </Text>
+        </HStack>
         <HStack spacing={2}>
           {onRefresh && (
             <IconButton
@@ -625,7 +663,11 @@ function App() {
   if (loading) {
     return (
       <ChakraProvider theme={theme}>
-        <TopBar onSettingsOpen={onSettingsOpen} onSupportOpen={onSupportOpen} onHelpOpen={onHelpOpen} />
+        <TopBar
+          onSettingsOpen={onSettingsOpen}
+          onSupportOpen={onSupportOpen}
+          onHelpOpen={onHelpOpen}
+        />
         <SettingsDrawer isOpen={isSettingsOpen} onClose={onSettingsClose} />
         <SupportDrawer isOpen={isSupportOpen} onClose={onSupportClose} />
         <HelpDrawer isOpen={isHelpOpen} onClose={onHelpClose} />
@@ -644,7 +686,11 @@ function App() {
   if (error) {
     return (
       <ChakraProvider theme={theme}>
-        <TopBar onSettingsOpen={onSettingsOpen} onSupportOpen={onSupportOpen} onHelpOpen={onHelpOpen} />
+        <TopBar
+          onSettingsOpen={onSettingsOpen}
+          onSupportOpen={onSupportOpen}
+          onHelpOpen={onHelpOpen}
+        />
         <SettingsDrawer isOpen={isSettingsOpen} onClose={onSettingsClose} />
         <SupportDrawer isOpen={isSupportOpen} onClose={onSupportClose} />
         <HelpDrawer isOpen={isHelpOpen} onClose={onHelpClose} />
@@ -664,7 +710,11 @@ function App() {
   if (!shortcutUrl || !shortcut) {
     return (
       <ChakraProvider theme={theme}>
-        <TopBar onSettingsOpen={onSettingsOpen} onSupportOpen={onSupportOpen} onHelpOpen={onHelpOpen} />
+        <TopBar
+          onSettingsOpen={onSettingsOpen}
+          onSupportOpen={onSupportOpen}
+          onHelpOpen={onHelpOpen}
+        />
         <SettingsDrawer isOpen={isSettingsOpen} onClose={onSettingsClose} />
         <SupportDrawer isOpen={isSupportOpen} onClose={onSupportClose} />
         <HelpDrawer isOpen={isHelpOpen} onClose={onHelpClose} />
@@ -723,7 +773,7 @@ function App() {
       <SettingsDrawer isOpen={isSettingsOpen} onClose={onSettingsClose} />
       <SupportDrawer isOpen={isSupportOpen} onClose={onSupportClose} />
       <HelpDrawer isOpen={isHelpOpen} onClose={onHelpClose} />
-      <Box minH="100vh" minW="450px">
+      <Box minH="100vh" minW="350px">
         <ShortcutHeader shortcut={shortcut} binaryData={binaryData} apiResponse={apiResponse} />
 
         <Container maxW="full" p={4}>
@@ -749,6 +799,7 @@ function App() {
                   shortcut={shortcut}
                   shortcutUrl={shortcutUrl}
                   onOpenSettings={onSettingsOpen}
+                  onHelpOpen={onHelpOpen}
                 />
               </TabPanel>
 

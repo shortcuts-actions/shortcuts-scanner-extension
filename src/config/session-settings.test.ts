@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_SESSION_SETTINGS,
+  formatMinutes,
   INACTIVITY_TIMEOUT_MARKS,
   SESSION_EXPIRY_MARKS,
   SESSION_LIMITS,
-  formatMinutes,
   type SessionSettings,
 } from './session-settings';
 

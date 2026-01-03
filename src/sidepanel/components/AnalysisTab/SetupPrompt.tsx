@@ -1,16 +1,27 @@
 // Prompt shown when no API keys are configured
 
 import { LockIcon, SettingsIcon } from '@chakra-ui/icons';
-import { Button, Card, CardBody, Icon, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Card,
+  CardBody,
+  Icon,
+  Link,
+  Text,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
 
 interface SetupPromptProps {
   onOpenSettings: () => void;
+  onHelpOpen: () => void;
 }
 
-export default function SetupPrompt({ onOpenSettings }: SetupPromptProps) {
+export default function SetupPrompt({ onOpenSettings, onHelpOpen }: SetupPromptProps) {
   const cardBg = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.600', 'gray.400');
   const iconColor = useColorModeValue('gray.400', 'gray.500');
+  const linkColor = useColorModeValue('blue.500', 'blue.300');
 
   return (
     <Card bg={cardBg}>
@@ -27,6 +38,15 @@ export default function SetupPrompt({ onOpenSettings }: SetupPromptProps) {
           <Text fontSize="xs" color={textColor}>
             Supported providers: OpenAI, Anthropic, OpenRouter
           </Text>
+          <Link
+            fontSize="xs"
+            color={linkColor}
+            onClick={onHelpOpen}
+            cursor="pointer"
+            _hover={{ textDecoration: 'underline' }}
+          >
+            Learn more about security
+          </Link>
           <Button
             size="sm"
             colorScheme="brand"

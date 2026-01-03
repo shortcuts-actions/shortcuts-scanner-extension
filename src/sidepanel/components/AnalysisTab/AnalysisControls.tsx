@@ -15,7 +15,9 @@ import {
 import {
   ANALYSIS_MODES,
   type AnalysisMode,
+  PROVIDER_DISPLAY_NAMES,
   type ProviderStatus,
+  SUPPORTED_MODELS,
   type SupportedProvider,
 } from '../../../utils/analysis-types';
 
@@ -46,8 +48,36 @@ export default function AnalysisControls({
 
   const isReady = selectedProvider && selectedModel && !isRunning;
 
+  // Get display names for provider and model
+  const providerDisplayName = selectedProvider ? PROVIDER_DISPLAY_NAMES[selectedProvider] : null;
+  const modelInfo =
+    selectedProvider && selectedModel
+      ? SUPPORTED_MODELS[selectedProvider]?.find((m) => m.id === selectedModel)
+      : null;
+  const isCustomModel =
+    selectedProvider && selectedProvider === 'openrouter' && selectedModel && !modelInfo;
+
   return (
     <VStack spacing={4} align="stretch">
+      {/* Provider and Model Info */}
+      {providerDisplayName && selectedModel && (
+        <Box p={3} borderRadius="md" bg={radioBg} borderWidth="1px">
+          <Text fontSize="xs" color={descColor} mb={1}>
+            Using
+          </Text>
+          <Text fontSize="sm" fontWeight="medium" color={labelColor}>
+            {providerDisplayName} ·{' '}
+            {isCustomModel ? (
+              <Text as="span" fontFamily="mono" fontSize="xs">
+                {selectedModel}
+              </Text>
+            ) : (
+              modelInfo?.name
+            )}
+          </Text>
+        </Box>
+      )}
+
       {/* Analysis Mode Selection */}
       <FormControl>
         <FormLabel fontSize="sm" color={labelColor}>

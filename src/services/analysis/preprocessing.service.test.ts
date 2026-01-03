@@ -3,7 +3,10 @@ import type { ParsedShortcut, ShortcutAction } from '../../utils/types';
 import { preprocessingService } from './preprocessing.service';
 
 describe('PreprocessingService', () => {
-  const createShortcut = (actions: ShortcutAction[], inputTypes: string[] = []): ParsedShortcut => ({
+  const createShortcut = (
+    actions: ShortcutAction[],
+    inputTypes: string[] = [],
+  ): ParsedShortcut => ({
     metadata: {
       name: 'Test Shortcut',
     },
@@ -535,9 +538,7 @@ describe('PreprocessingService', () => {
   describe('generateSummary', () => {
     it('should generate a compact summary', () => {
       const preprocessed = preprocessingService.process(
-        createShortcut([
-          { WFWorkflowActionIdentifier: 'is.workflow.actions.gettext' },
-        ]),
+        createShortcut([{ WFWorkflowActionIdentifier: 'is.workflow.actions.gettext' }]),
       );
 
       const summary = preprocessingService.generateSummary(preprocessed);

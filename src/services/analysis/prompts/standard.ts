@@ -60,43 +60,55 @@ ${fullActions}
 ## Your Analysis Tasks
 
 ### 1. Purpose Analysis
-- What does this shortcut claim or appear to do?
+- What does this shortcut claim or appear to do based on its name?
 - What does it ACTUALLY do based on the action sequence?
 - Is there any mismatch between apparent and actual purpose?
 
-### 2. Data Flow Analysis
-For each sensitive data flow:
-- What data is accessed?
-- What transformations are applied?
-- Where is it sent or stored?
-- Is this flow necessary for the stated purpose?
-- What could go wrong?
+### 2. Permission & Purpose Alignment
+For each permission required, evaluate:
+- Is this permission EXPECTED for a shortcut with this name/purpose? (e.g., a "Photo Editor" accessing photos is expected)
+- If expected: note as legitimate and move on
+- If unexpected: flag for user attention and explain the concern
 
-### 3. Permission Analysis
-For each permission required:
-- Why does the shortcut need this?
-- Is the access scoped appropriately?
-- Could this be abused?
+Remember: Many useful shortcuts legitimately require access to photos, contacts, calendars, location, clipboard, etc. Only flag permissions that don't align with the shortcut's stated purpose.
+
+### 3. Data Flow Analysis (Critical)
+Focus on WHERE data goes, not just what's accessed:
+- **Local processing only**: Generally safe - data stays on device
+- **Standard iOS sharing** (share sheet, messages to user-selected contacts): Low risk
+- **External transmission**: Requires scrutiny - what data, to where, why?
+
+For external transmissions:
+- What specific data is being sent?
+- Is the destination a known/legitimate service?
+- Does the user benefit from this transmission?
+- Is the URL hardcoded or user-provided?
 
 ### 4. Network Analysis
 For each external URL/API:
-- What service is this?
+- What service is this? Is it a well-known API (weather, translation, etc.)?
 - What data is sent to it?
-- Is this a known legitimate service?
-- Is authentication handled safely?
+- Is this transmission necessary for the shortcut's purpose?
+- Are there any suspicious patterns (IP addresses, URL shorteners, encoded URLs)?
 
-### 5. Deception Analysis
-Look for red flags:
-- Misleading variable names or comments
-- Obfuscated URLs or encoded payloads
-- Unnecessary complexity hiding simple malicious actions
-- Fake error messages or alerts
-- Social engineering in user prompts
+### 5. Red Flag Detection
+Focus on genuinely suspicious patterns:
+- Data harvesting + external transmission (contacts/photos sent to unknown URLs)
+- Purpose mismatch (data access unrelated to shortcut name)
+- Obfuscation (base64 URLs, string concatenation hiding destinations)
+- Credential collection (prompting for passwords/API keys)
+- Silent operation (accessing sensitive data with no user feedback)
+
+Do NOT flag as concerning:
+- Expected data access that matches purpose
+- Local-only data processing
+- Standard iOS share sheet usage
+- Well-known API integrations
 
 ### 6. Control Flow Analysis
 - Any infinite loops or resource exhaustion?
 - Recursive calls - are they bounded?
-- External shortcut calls - what do they do?
+- External shortcut calls - what do they invoke?
 - Error handling - what happens on failure?
 
 ---
@@ -140,8 +152,10 @@ Respond with ONLY valid JSON matching this schema:
       "source": "<where data comes from>",
       "sink": "<where data goes>",
       "dataType": "<what kind of data>",
-      "risk": "low" | "medium" | "high",
-      "explanation": "<why this flow matters>"
+      "isExternal": true | false,
+      "alignsWithPurpose": true | false,
+      "risk": "none" | "low" | "medium" | "high",
+      "explanation": "<why this flow matters - focus on external/misaligned flows>"
     }
   ],
 
@@ -160,8 +174,9 @@ Respond with ONLY valid JSON matching this schema:
     {
       "permission": "<permission name>",
       "usedFor": "<how it's used>",
-      "necessary": true | false,
-      "riskIfAbused": "<potential harm>"
+      "alignsWithPurpose": true | false,
+      "dataDestination": "local" | "shared_via_ios" | "external_service" | "unknown",
+      "assessment": "<brief assessment - only note concerns if misaligned or externally transmitted>"
     }
   ],
 
@@ -169,7 +184,7 @@ Respond with ONLY valid JSON matching this schema:
     {
       "flag": "<what was detected>",
       "severity": "critical" | "high" | "medium" | "low",
-      "explanation": "<why this is concerning>"
+      "explanation": "<why this is genuinely concerning - not just data access but actual suspicious patterns>"
     }
   ],
 

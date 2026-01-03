@@ -59,11 +59,14 @@ export const useAnalysisStore = create<AnalysisStore>()(
       modelPreferences: {},
 
       setModelPreference: (provider, model) => {
+        const currentProvider = get().selectedProvider;
         set({
           modelPreferences: {
             ...get().modelPreferences,
             [provider]: model,
           },
+          // Also update selectedModel if this is the current provider
+          ...(currentProvider === provider ? { selectedModel: model } : {}),
         });
       },
 
@@ -148,6 +151,8 @@ export const useAnalysisStore = create<AnalysisStore>()(
       name: 'analysis-store',
       partialize: (state) => ({
         modelPreferences: state.modelPreferences,
+        selectedProvider: state.selectedProvider,
+        selectedModel: state.selectedModel,
       }),
     },
   ),

@@ -14,9 +14,8 @@ vi.mock('./crypto.service', () => ({
   generateSecureRandom: vi.fn((length: number) =>
     'random'.repeat(Math.ceil(length / 6)).substring(0, length),
   ),
-  deriveWithHKDF: vi.fn(
-    (extensionId: string, protector: string, info: string, keyLength: number) =>
-      Promise.resolve(`hkdf:${extensionId}:${protector}:${info}:${keyLength}`),
+  deriveWithHKDF: vi.fn((extensionId: string, protector: string, info: string, keyLength: number) =>
+    Promise.resolve(`hkdf:${extensionId}:${protector}:${info}:${keyLength}`),
   ),
 }));
 

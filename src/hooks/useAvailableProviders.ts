@@ -89,14 +89,16 @@ export function useProviderUnlockStatus(provider: SupportedProvider | null): {
     const handleMessage = (message: { type: string; provider?: string }) => {
       if (message.type === 'SESSION_LOCKED') {
         setIsUnlocked(false);
-      } else if (message.type === 'SESSION_UNLOCKED' && message.provider === provider) {
-        setIsUnlocked(true);
+      } else if (message.type === 'SESSION_UNLOCKED') {
+        // Always re-check status when any provider is unlocked
+        // This ensures we catch the current provider being unlocked
+        checkStatus();
       }
     };
 
     chrome.runtime.onMessage.addListener(handleMessage);
     return () => chrome.runtime.onMessage.removeListener(handleMessage);
-  }, [provider]);
+  }, [checkStatus]);
 
   return { isUnlocked, loading, refresh: checkStatus };
 }

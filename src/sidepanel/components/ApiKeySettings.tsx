@@ -44,9 +44,10 @@ import {
   type SupportedProvider,
 } from '../../api-key-validation.service';
 import { useApiKey } from '../../hooks/useApiKey';
+import { apiKeyManagerService } from '../../services/api-key-manager.service';
 import { deviceBindingRevocationService } from '../../services/device-binding-revocation.service';
 import { useAnalysisStore } from '../../stores/analysisStore';
-import { SUPPORTED_MODELS } from '../../utils/analysis-types';
+import { CUSTOM_MODEL_OPTION_ID, SUPPORTED_MODELS } from '../../utils/analysis-types';
 import SessionSettingsCard from './SessionSettingsCard';
 
 interface ProviderKeyCardProps {
@@ -90,6 +91,8 @@ function ProviderKeyCard({ provider }: ProviderKeyCardProps) {
   } | null>(null);
   const [apiKeyError, setApiKeyError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [customModelInput, setCustomModelInput] = useState('');
+  const [isCustomModelSelected, setIsCustomModelSelected] = useState(false);
 
   const toast = useToast();
   const { isOpen: isFormOpen, onToggle: onFormToggle, onClose: onFormClose } = useDisclosure();
@@ -99,6 +102,17 @@ function ProviderKeyCard({ provider }: ProviderKeyCardProps) {
   const labelColor = useColorModeValue('gray.600', 'gray.400');
 
   const displayName = PROVIDER_DISPLAY_NAMES[provider] || provider;
+
+  // Detect if saved model is a custom model (not in predefined list)
+  useEffect(() => {
+    if (provider === 'openrouter' && savedModel) {
+      const isCustom = !models.some((m) => m.id === savedModel);
+      if (isCustom) {
+        setIsCustomModelSelected(true);
+        setCustomModelInput(savedModel);
+      }
+    }
+  }, [provider, savedModel, models]);
 
   // Validate password as user types
   const handlePasswordChange = useCallback(
@@ -140,6 +154,10 @@ function ProviderKeyCard({ provider }: ProviderKeyCardProps) {
     });
 
     if (success) {
+      // Set this provider as the default
+      const { setSelectedProvider } = useAnalysisStore.getState();
+      setSelectedProvider(provider as SupportedProvider);
+
       toast({
         title: 'API key saved',
         description: `Your ${displayName} API key has been securely encrypted and saved.`,
@@ -155,6 +173,10 @@ function ProviderKeyCard({ provider }: ProviderKeyCardProps) {
   const handleUnlock = async () => {
     const apiKey = await unlock(unlockPasswordInput);
     if (apiKey) {
+      // Set this provider as the default
+      const { setSelectedProvider } = useAnalysisStore.getState();
+      setSelectedProvider(provider as SupportedProvider);
+
       toast({
         title: 'API key unlocked',
         description: `Your ${displayName} API key is now available for use.`,
@@ -349,16 +371,69 @@ function ProviderKeyCard({ provider }: ProviderKeyCardProps) {
               </FormLabel>
               <Select
                 size="sm"
-                value={currentModel}
-                onChange={(e) => setModelPreference(provider as SupportedProvider, e.target.value)}
+                value={isCustomModelSelected ? CUSTOM_MODEL_OPTION_ID : currentModel}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === CUSTOM_MODEL_OPTION_ID) {
+                    setIsCustomModelSelected(true);
+                  } else {
+                    setIsCustomModelSelected(false);
+                    setCustomModelInput('');
+                    setModelPreference(provider as SupportedProvider, value);
+                  }
+                }}
               >
                 {models.map((model) => (
                   <option key={model.id} value={model.id}>
                     {model.name} - {model.description}
                   </option>
                 ))}
+                {provider === 'openrouter' && (
+                  <option value={CUSTOM_MODEL_OPTION_ID}>Other - Enter custom model ID</option>
+                )}
               </Select>
             </FormControl>
+
+            {/* Custom model input for OpenRouter */}
+            {provider === 'openrouter' && isCustomModelSelected && (
+              <FormControl>
+                <FormLabel fontSize="sm" color={labelColor}>
+                  Custom Model ID
+                </FormLabel>
+                <HStack>
+                  <Input
+                    size="sm"
+                    value={customModelInput}
+                    onChange={(e) => setCustomModelInput(e.target.value)}
+                    placeholder="e.g., mistralai/mistral-large"
+                    fontFamily="monospace"
+                  />
+                  <Button
+                    size="sm"
+                    colorScheme="brand"
+                    leftIcon={<CheckIcon />}
+                    onClick={() => {
+                      if (customModelInput.trim()) {
+                        setModelPreference(provider as SupportedProvider, customModelInput.trim());
+                        toast({
+                          title: 'Model saved',
+                          description: `Custom model "${customModelInput.trim()}" has been set.`,
+                          status: 'success',
+                          duration: 2000,
+                          isClosable: true,
+                        });
+                      }
+                    }}
+                    isDisabled={!customModelInput.trim()}
+                  >
+                    Save
+                  </Button>
+                </HStack>
+                <FormHelperText fontSize="xs">
+                  Enter any OpenRouter model ID. Find available models at openrouter.ai/models
+                </FormHelperText>
+              </FormControl>
+            )}
           </VStack>
         )}
 
@@ -500,11 +575,22 @@ function ProviderKeyCard({ provider }: ProviderKeyCardProps) {
 
 export default function ApiKeySettings() {
   const [orphanedKeysWarning, setOrphanedKeysWarning] = useState<string | null>(null);
-  const [selectedProvider, setSelectedProvider] = useState<SupportedProvider>('openai');
+  const { selectedProvider: defaultProvider, setSelectedProvider: setDefaultProvider } =
+    useAnalysisStore();
+  const [selectedProvider, setSelectedProvider] = useState<SupportedProvider>(
+    (defaultProvider as SupportedProvider) || 'openai',
+  );
 
   const cardBg = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
   const textColor = useColorModeValue('gray.600', 'gray.400');
+
+  // Initialize selectedProvider from store on mount
+  useEffect(() => {
+    if (defaultProvider) {
+      setSelectedProvider(defaultProvider as SupportedProvider);
+    }
+  }, [defaultProvider]);
 
   // Check for orphaned keys on mount
   useEffect(() => {
@@ -520,6 +606,17 @@ export default function ApiKeySettings() {
   const handleCleanupOrphanedKeys = async () => {
     await deviceBindingRevocationService.cleanupOrphanedKeys();
     setOrphanedKeysWarning(null);
+  };
+
+  const handleProviderChange = async (provider: SupportedProvider) => {
+    setSelectedProvider(provider);
+
+    // Check if this provider has a key, then set it as default
+    const hasKey = await apiKeyManagerService.hasKey(provider);
+
+    if (hasKey) {
+      setDefaultProvider(provider);
+    }
   };
 
   return (
@@ -554,7 +651,7 @@ export default function ApiKeySettings() {
             <Select
               size="sm"
               value={selectedProvider}
-              onChange={(e) => setSelectedProvider(e.target.value as SupportedProvider)}
+              onChange={(e) => handleProviderChange(e.target.value as SupportedProvider)}
             >
               {SUPPORTED_PROVIDERS.map((p) => (
                 <option key={p} value={p}>

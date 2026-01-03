@@ -212,10 +212,22 @@ export class LLMClientService {
 
     // Try to get error details from response body
     let errorBody = '';
+    let errorMessage = '';
     try {
       errorBody = await response.text();
+      // Try to parse as JSON to extract error message
+      const errorJson = JSON.parse(errorBody);
+      if (errorJson.error?.message) {
+        errorMessage = errorJson.error.message;
+      } else if (errorJson.message) {
+        errorMessage = errorJson.message;
+      } else if (errorJson.error) {
+        errorMessage =
+          typeof errorJson.error === 'string' ? errorJson.error : JSON.stringify(errorJson.error);
+      }
     } catch {
-      // Ignore parse error
+      // If not JSON, use the raw error body
+      errorMessage = errorBody.slice(0, 200);
     }
 
     // Rate limit
@@ -225,20 +237,31 @@ export class LLMClientService {
 
       throw this.createError(
         'RATE_LIMIT',
-        `Rate limited. Please wait before trying again.`,
+        errorMessage || 'Rate limited. Please wait before trying again.',
         retryAfterMs,
       );
     }
 
     // Invalid API key
     if (status === 401 || status === 403) {
-      throw this.createError('INVALID_KEY', 'Invalid API key. Please check your key in Settings.');
+      throw this.createError(
+        'INVALID_KEY',
+        errorMessage || 'Invalid API key. Please check your key in Settings.',
+      );
+    }
+
+    // Payment required (e.g., insufficient credits)
+    if (status === 402) {
+      throw this.createError(
+        'API_ERROR',
+        errorMessage || 'Payment required. Please check your account credits or billing.',
+      );
     }
 
     // Other API errors
     throw this.createError(
       'API_ERROR',
-      `API error (${status}): ${errorBody.slice(0, 200)}`,
+      errorMessage || `API error (${status})`,
       undefined,
       errorBody,
     );
@@ -255,6 +278,22 @@ export class LLMClientService {
       // Re-throw if it's already an LLMError
       if ('code' in error) {
         throw error;
+      }
+      // Return the error message for standard Error objects
+      return this.createError('API_ERROR', error.message);
+    }
+
+    // Handle non-Error objects
+    if (typeof error === 'object' && error !== null) {
+      // Try to extract meaningful information from the error object
+      if ('message' in error && typeof error.message === 'string') {
+        return this.createError('API_ERROR', error.message);
+      }
+      // Fallback to JSON stringify for objects
+      try {
+        return this.createError('API_ERROR', `Unexpected error: ${JSON.stringify(error)}`);
+      } catch {
+        return this.createError('API_ERROR', 'An unexpected error occurred');
       }
     }
 

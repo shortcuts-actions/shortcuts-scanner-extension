@@ -213,12 +213,9 @@ describe('useProviderUnlockStatus', () => {
       return provider === 'openai';
     });
 
-    const { result, rerender } = renderHook(
-      ({ provider }) => useProviderUnlockStatus(provider),
-      {
-        initialProps: { provider: 'openai' as 'openai' | 'anthropic' | 'openrouter' | null },
-      },
-    );
+    const { result, rerender } = renderHook(({ provider }) => useProviderUnlockStatus(provider), {
+      initialProps: { provider: 'openai' as 'openai' | 'anthropic' | 'openrouter' | null },
+    });
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -299,13 +296,21 @@ describe('useProviderUnlockStatus', () => {
       expect(result.current.isUnlocked).toBe(false);
     });
 
+    // Now the provider becomes unlocked
+    vi.mocked(apiKeyManagerService.isUnlocked).mockResolvedValue(true);
+
     // Get the listener that was registered
     const calls = vi.mocked(chrome.runtime.onMessage.addListener).mock.calls;
     const listener = calls[calls.length - 1][0];
 
     // Simulate SESSION_UNLOCKED message for openai
-    act(() => {
-      listener({ type: 'SESSION_UNLOCKED', provider: 'openai' }, {} as chrome.runtime.MessageSender, () => {});
+    await act(async () => {
+      listener(
+        { type: 'SESSION_UNLOCKED', provider: 'openai' },
+        {} as chrome.runtime.MessageSender,
+        () => {},
+      );
+      await new Promise((resolve) => setTimeout(resolve, 10));
     });
 
     await waitFor(() => {
@@ -313,7 +318,7 @@ describe('useProviderUnlockStatus', () => {
     });
   });
 
-  it('should not update on SESSION_UNLOCKED message for different provider', async () => {
+  it('should re-check status on SESSION_UNLOCKED message for any provider', async () => {
     vi.mocked(apiKeyManagerService.isUnlocked).mockResolvedValue(false);
 
     const { result } = renderHook(() => useProviderUnlockStatus('openai'));
@@ -322,28 +327,35 @@ describe('useProviderUnlockStatus', () => {
       expect(result.current.isUnlocked).toBe(false);
     });
 
+    // Now openai becomes unlocked (even though message is for different provider)
+    vi.mocked(apiKeyManagerService.isUnlocked).mockResolvedValue(true);
+
     // Get the listener that was registered
     const calls = vi.mocked(chrome.runtime.onMessage.addListener).mock.calls;
     const listener = calls[calls.length - 1][0];
 
-    // Simulate SESSION_UNLOCKED message for different provider
-    act(() => {
-      listener({ type: 'SESSION_UNLOCKED', provider: 'anthropic' }, {} as chrome.runtime.MessageSender, () => {});
+    // Simulate SESSION_UNLOCKED message for different provider (anthropic)
+    await act(async () => {
+      listener(
+        { type: 'SESSION_UNLOCKED', provider: 'anthropic' },
+        {} as chrome.runtime.MessageSender,
+        () => {},
+      );
+      await new Promise((resolve) => setTimeout(resolve, 10));
     });
 
-    // Should remain false
-    expect(result.current.isUnlocked).toBe(false);
+    // Should have re-checked and found openai is now unlocked
+    await waitFor(() => {
+      expect(result.current.isUnlocked).toBe(true);
+    });
   });
 
   it('should check status when provider is changed from null', async () => {
     vi.mocked(apiKeyManagerService.isUnlocked).mockResolvedValue(true);
 
-    const { result, rerender } = renderHook(
-      ({ provider }) => useProviderUnlockStatus(provider),
-      {
-        initialProps: { provider: null as 'openai' | 'anthropic' | 'openrouter' | null },
-      },
-    );
+    const { result, rerender } = renderHook(({ provider }) => useProviderUnlockStatus(provider), {
+      initialProps: { provider: null as 'openai' | 'anthropic' | 'openrouter' | null },
+    });
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);

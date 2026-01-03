@@ -452,9 +452,9 @@ describe('ValidationService', () => {
 
       const result = validationService.validate(mockLLMResult, preprocessedWithAnthropicKey);
 
-      expect(
-        result.additionalFlags.some((flag) => flag.flag.includes('Anthropic API key')),
-      ).toBe(true);
+      expect(result.additionalFlags.some((flag) => flag.flag.includes('Anthropic API key'))).toBe(
+        true,
+      );
     });
 
     it('should detect GitHub token pattern', () => {

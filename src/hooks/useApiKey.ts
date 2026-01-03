@@ -116,7 +116,11 @@ export function useApiKey(provider: string): UseApiKeyResult {
 
       // Broadcast unlock event so other components can update their state
       if (result.success) {
-        chrome.runtime.sendMessage({ type: 'SESSION_UNLOCKED', provider });
+        try {
+          chrome.runtime.sendMessage({ type: 'SESSION_UNLOCKED', provider });
+        } catch {
+          // Ignore - listeners may not be ready yet (e.g., during component mounting)
+        }
       }
 
       return result.success && result.apiKey ? result.apiKey : null;

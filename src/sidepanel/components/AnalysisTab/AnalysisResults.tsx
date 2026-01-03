@@ -348,17 +348,41 @@ export default function AnalysisResults({ result }: AnalysisResultsProps) {
                         {perm.permission}
                       </Text>
                       <Icon
-                        as={perm.necessary ? CheckCircleIcon : WarningIcon}
-                        color={perm.necessary ? 'green.500' : 'orange.500'}
+                        as={perm.alignsWithPurpose ? CheckCircleIcon : WarningIcon}
+                        color={perm.alignsWithPurpose ? 'green.500' : 'orange.500'}
                         boxSize={3}
                       />
                     </HStack>
                     <Text fontSize="xs" color={labelColor} mt={1}>
                       Used for: {perm.usedFor}
                     </Text>
-                    {!perm.necessary && (
-                      <Text fontSize="xs" color="orange.500" mt={1}>
-                        Risk: {perm.riskIfAbused}
+                    <HStack mt={1} spacing={2}>
+                      <Badge
+                        colorScheme={
+                          perm.dataDestination === 'local'
+                            ? 'green'
+                            : perm.dataDestination === 'external_service'
+                              ? 'orange'
+                              : 'gray'
+                        }
+                        size="sm"
+                      >
+                        {perm.dataDestination === 'shared_via_ios'
+                          ? 'Shared via iOS'
+                          : perm.dataDestination === 'external_service'
+                            ? 'External'
+                            : perm.dataDestination === 'local'
+                              ? 'Local'
+                              : 'Unknown'}
+                      </Badge>
+                    </HStack>
+                    {perm.assessment && (
+                      <Text
+                        fontSize="xs"
+                        color={perm.alignsWithPurpose ? labelColor : 'orange.500'}
+                        mt={1}
+                      >
+                        {perm.assessment}
                       </Text>
                     )}
                   </Box>
@@ -430,14 +454,23 @@ export default function AnalysisResults({ result }: AnalysisResultsProps) {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel px={0} pt={2}>
-              <List spacing={1}>
+              <VStack align="stretch" spacing={2}>
                 {fullResult.positiveIndicators.map((indicator) => (
-                  <ListItem key={indicator} fontSize="xs">
-                    <ListIcon as={CheckCircleIcon} color="green.500" />
-                    {indicator}
-                  </ListItem>
+                  <Box
+                    key={indicator}
+                    p={3}
+                    bg={cardBg}
+                    borderRadius="md"
+                    borderWidth="1px"
+                    borderColor={borderColor}
+                  >
+                    <HStack>
+                      <CheckCircleIcon color="green.500" boxSize={3} />
+                      <Text fontSize="xs">{indicator}</Text>
+                    </HStack>
+                  </Box>
                 ))}
-              </List>
+              </VStack>
             </AccordionPanel>
           </AccordionItem>
         )}

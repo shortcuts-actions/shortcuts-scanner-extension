@@ -326,6 +326,16 @@ export class AnalysisService {
     return 'unknown';
   }
 
+  private validateDataDestination(
+    value: unknown,
+  ): 'local' | 'shared_via_ios' | 'external_service' | 'unknown' {
+    const valid = ['local', 'shared_via_ios', 'external_service', 'unknown'];
+    if (typeof value === 'string' && valid.includes(value)) {
+      return value as 'local' | 'shared_via_ios' | 'external_service' | 'unknown';
+    }
+    return 'unknown';
+  }
+
   private parsePermissions(value: unknown): AnalysisResult['permissions'] {
     if (!Array.isArray(value)) return [];
 
@@ -334,8 +344,9 @@ export class AnalysisService {
       return {
         permission: String(obj.permission || 'Unknown'),
         usedFor: String(obj.usedFor || ''),
-        necessary: Boolean(obj.necessary),
-        riskIfAbused: String(obj.riskIfAbused || ''),
+        alignsWithPurpose: Boolean(obj.alignsWithPurpose),
+        dataDestination: this.validateDataDestination(obj.dataDestination),
+        assessment: String(obj.assessment || ''),
       };
     });
   }
