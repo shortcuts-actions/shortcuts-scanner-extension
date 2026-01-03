@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortcuts Scanner - Chrome Extension</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-color: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --code-bg: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+        }
+
+        nav {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero .badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin: 2rem 0 0.75rem;
+            color: var(--text-color);
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Shortcuts Scanner</a>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="security.html">Security</a></li>
+                <li><a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Shortcuts Scanner</h1>
+        <p>A Chrome extension that allows you to view, inspect, download and perform AI-powered security analysis for Apple Shortcuts directly from iCloud.com.</p>
+        <div class="badges">
+            <span class="badge">Open Source</span>
+            <span class="badge">Privacy-Focused</span>
+            <span class="badge">AI-Powered</span>
+            <span class="badge">Manifest V3</span>
+        </div>
+    </div>
+
+    <main>
+        <h2>Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>Automatic Detection</h4>
+                <p>Automatically detects when you're viewing an Apple Shortcut on iCloud.com</p>
+            </div>
+            <div class="feature-card">
+                <h4>Side Panel Interface</h4>
+                <p>Clean, modern side panel UI built with React and Chakra UI</p>
+            </div>
+            <div class="feature-card">
+                <h4>AI Security Analysis</h4>
+                <p>AI-powered security scanner with risk assessment and recommendations</p>
+            </div>
+            <div class="feature-card">
+                <h4>Multiple Export Formats</h4>
+                <p>Download as .shortcut, XML, or JSON format</p>
+            </div>
+        </div>
+
+        <h3>Multiple Views</h3>
+        <ul>
+            <li><strong>Overview</strong>: View metadata, general information, shortcut URL with visual icon and color previews</li>
+            <li><strong>Actions</strong>: Browse all actions with search, expand/collapse all functionality</li>
+            <li><strong>Scanner</strong>: AI-powered security scanner &amp; analysis with risk assessment and recommendations</li>
+            <li><strong>API Response</strong>: View the raw iCloud API response data</li>
+            <li><strong>Raw XML</strong>: View and download the shortcut in XML plist format</li>
+            <li><strong>Raw JSON</strong>: View and download the shortcut in JSON format</li>
+        </ul>
+
+        <h2>AI Security Analysis</h2>
+        <p>The extension includes a powerful AI-powered security analysis feature that helps you understand potential risks before installing a shortcut.</p>
+
+        <h3>Supported AI Providers</h3>
+        <ul>
+            <li><strong>OpenAI</strong> (GPT-4o, GPT-4o Mini, GPT-4 Turbo)</li>
+            <li><strong>Anthropic</strong> (Claude Sonnet 4.5, Claude Opus 4.5, Claude 4.5 Haiku)</li>
+            <li><strong>OpenRouter</strong> (Models above, Gemini 2.0 Flash, DeepSeek v3.2, Qwen3 Max and Llama 3.1)</li>
+        </ul>
+
+        <h3>Analysis Modes</h3>
+        <ul>
+            <li><strong>Quick Scan</strong>: Fast initial assessment. Provides a quick risk overview and top concerns.</li>
+            <li><strong>Standard Analysis</strong>: Comprehensive review. Detailed findings, data flow analysis, and recommendations.</li>
+            <li><strong>Deep Analysis</strong>: Thorough security audit. Includes adversarial analysis, obfuscation detection, and trust chain review.</li>
+        </ul>
+
+        <h3>What It Analyzes</h3>
+        <ul>
+            <li><strong>Purpose Analysis</strong>: Compares what the shortcut claims to do vs. what it actually does</li>
+            <li><strong>Data Flow Tracking</strong>: Maps how data moves from sources to destinations</li>
+            <li><strong>External Connections</strong>: Identifies all URLs and network calls with reputation assessment</li>
+            <li><strong>Permission Analysis</strong>: Reviews required permissions and flags potentially unnecessary access</li>
+            <li><strong>Red Flags</strong>: Detects suspicious patterns like path traversal, hardcoded API keys, or obfuscation</li>
+            <li><strong>Positive Indicators</strong>: Highlights legitimate patterns that suggest safe behavior</li>
+        </ul>
+
+        <h3>Security &amp; Privacy</h3>
+        <p>Your API keys are encrypted locally using AES-256-GCM with PBKDF2 key derivation (800,000 iterations). Keys are bound to your browser installation and cannot be extracted. They are never sent anywhere except to the AI provider you select for analysis.</p>
+
+        <h3>Setup</h3>
+        <ol>
+            <li>Open Settings (gear icon in the top-right)</li>
+            <li>Add your API key for your preferred provider</li>
+            <li>Create a strong encryption password</li>
+            <li>Select your preferred model for analysis</li>
+            <li>Navigate to any shortcut and click the "Analysis" tab</li>
+            <li>Click "Run Security Analysis"</li>
+        </ol>
+
+        <h2>Tech Stack</h2>
+        <ul>
+            <li><strong>TypeScript</strong> - Type-safe development</li>
+            <li><strong>React 18</strong> - UI framework</li>
+            <li><strong>Chakra UI</strong> - Component library</li>
+            <li><strong>Zustand</strong> - State management with persistence</li>
+            <li><strong>Vite</strong> - Build tool</li>
+            <li><strong>@plist/parse</strong> - Binary plist parsing</li>
+            <li><strong>Chrome Extension Manifest V3</strong> - Modern extension API</li>
+            <li><strong>Web Crypto API</strong> - AES-256-GCM encryption for API keys</li>
+        </ul>
+
+        <h2>Installation</h2>
+
+        <h3>For Development</h3>
+        <ol>
+            <li>Clone the repository</li>
+            <li>Install dependencies: <code>npm install</code></li>
+            <li>Build the extension: <code>npm run build</code></li>
+            <li>Load in Chrome:
+                <ul>
+                    <li>Open Chrome and navigate to <code>chrome://extensions/</code></li>
+                    <li>Enable "Developer mode" (toggle in top-right)</li>
+                    <li>Click "Load unpacked"</li>
+                    <li>Select the <code>dist</code> folder from this project</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>For Development with Hot Reload</h3>
+        <pre><code>npm run dev</code></pre>
+        <p>Then load the <code>dist</code> folder as an unpacked extension. The extension will rebuild automatically when you make changes.</p>
+
+        <h2>Usage</h2>
+        <ol>
+            <li><strong>Navigate to an iCloud Shortcut</strong>: Go to any shortcut on iCloud.com (e.g., <code>https://www.icloud.com/shortcuts/abc123...</code>)</li>
+            <li><strong>Open the Side Panel</strong>: The side panel should open automatically when a shortcut is detected, or click the extension icon manually</li>
+            <li><strong>Explore the Shortcut</strong>: Use the various tabs to view details, actions, and raw data</li>
+            <li><strong>Download or Copy</strong>: Use the download buttons or copy content to clipboard</li>
+        </ol>
+
+        <h2>How It Works</h2>
+        <ol>
+            <li><strong>Content Script Detection</strong>: When you visit <code>iCloud.com/shortcuts/*</code>, the content script detects the shortcut URL and notifies the background service worker.</li>
+            <li><strong>Side Panel Opens</strong>: The background worker opens the side panel and sends the shortcut URL.</li>
+            <li><strong>Fetching Data</strong>: The side panel fetches metadata from the iCloud API and downloads the unsigned binary plist file.</li>
+            <li><strong>Display</strong>: The parsed data is displayed in a user-friendly interface with multiple tabs for different views.</li>
+            <li><strong>Export</strong>: Users can download or copy the data in XML or JSON format.</li>
+        </ol>
+
+        <h2>Known Limitations</h2>
+        <ul>
+            <li>Only works with <strong>unsigned shortcuts</strong> or shortcuts that have an unsigned version available</li>
+            <li><strong>Signed shortcuts</strong> (iOS 15+) may not be downloadable via the API</li>
+            <li>Requires the shortcut to be publicly accessible on iCloud.com</li>
+            <li>Does not support converting XML back to binary plist</li>
+        </ul>
+
+        <h2>License</h2>
+        <p>Licensed under the Apache License, Version 2.0. See <a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension/blob/main/LICENSE">LICENSE</a> for details.</p>
+
+        <p style="margin-top: 2rem; text-align: center;">
+            <a href="https://apps.apple.com/us/app/ai-automation-for-shortcuts/id6756338677" class="btn">Download on App Store</a>
+        </p>
+    </main>
+
+    <footer>
+        <p>Made with love by <a href="https://www.shortcutactions.com">Shortcut Actions</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+            <a href="privacy.html">Privacy Policy</a> &bull;
+            <a href="security.html">Security</a> &bull;
+            <a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension">GitHub</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.75rem; opacity: 0.7;">
+            Shortcuts Scanner is not affiliated with, endorsed by, or sponsored by Apple Inc.<br>
+            "Apple", "Shortcuts", and "iCloud" are trademarks of Apple Inc.
+        </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Documentation - Shortcuts Scanner</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-color: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --code-bg: #1f2937;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+        }
+
+        nav {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin: 1.75rem 0 0.75rem;
+            color: var(--text-color);
+        }
+
+        h4 {
+            font-size: 1rem;
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .architecture-diagram {
+            background: var(--code-bg);
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 1.5rem 0;
+        }
+
+        .layer-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .layer-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .threat-card {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .threat-card h4 {
+            margin-top: 0;
+            color: #92400e;
+        }
+
+        .threat-card .mitigation {
+            background: #ecfdf5;
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            margin-top: 0.75rem;
+            color: #065f46;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box strong {
+            color: #92400e;
+        }
+
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .architecture-diagram {
+                font-size: 0.7rem;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Shortcuts Scanner</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="security.html" class="active">Security</a></li>
+                <li><a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Security Documentation</h1>
+        <p>API Key Storage Architecture &amp; Implementation Details</p>
+    </div>
+
+    <main>
+        <p>This extension implements a multi-layered security system for storing sensitive API keys (OpenAI, Anthropic, OpenRouter) using industry best practices and OWASP 2024/2025 guidelines.</p>
+
+        <h2>High-Level Architecture</h2>
+        <div class="architecture-diagram">
+<pre>
++------------------------------------------------------------------+
+|                        User Interface                             |
++--------------------------------+---------------------------------+
+                                 |
+                                 v
++------------------------------------------------------------------+
+|                      API Key Manager                              |
+|  +--------------+  +---------------+  +----------------------+    |
+|  |  Password    |  |    Rate       |  |    API Key           |    |
+|  |  Validator   |  |   Limiter     |  |    Validator         |    |
+|  +--------------+  +---------------+  +----------------------+    |
++--------------------------------+---------------------------------+
+                                 |
+            +--------------------+--------------------+
+            v                    v                    v
++-------------------+ +--------------+ +----------------------+
+|  Crypto Service   | |   Device     | |   Session Cache      |
+|  (AES-GCM +       | |   Binding    | |   (chrome.storage    |
+|   PBKDF2 800k)    | |   Service    | |    .session)         |
++---------+---------+ +------+-------+ +----------------------+
+          |                  |
+          v                  v
++------------------------------------------------------------------+
+|              Secure Storage (chrome.storage.local)                |
+|                    [Encrypted API Keys]                           |
++------------------------------------------------------------------+
+</pre>
+        </div>
+
+        <h2>Security Layers</h2>
+
+        <div class="layer-card">
+            <h4>Layer 1: Encryption at Rest</h4>
+            <ul>
+                <li><strong>Algorithm</strong>: AES-256-GCM (Authenticated Encryption)</li>
+                <li><strong>Key Derivation</strong>: PBKDF2 with 800,000 iterations (OWASP 2025 standard)</li>
+                <li><strong>Hash Function</strong>: SHA-256</li>
+                <li><strong>IV (Initialization Vector)</strong>: 96 bits, randomly generated per encryption</li>
+                <li><strong>Salt</strong>: 256 bits (32 bytes), randomly generated per key</li>
+                <li><strong>Authentication Tag</strong>: 128 bits for integrity verification</li>
+            </ul>
+        </div>
+
+        <div class="layer-card">
+            <h4>Layer 2: Device Binding</h4>
+            <ul>
+                <li><strong>Purpose</strong>: Prevents encrypted keys from being copied to other machines or extension installations</li>
+                <li><strong>Implementation</strong>: Uses HKDF (HMAC-based Key Derivation Function) to combine:
+                    <ul>
+                        <li>User-provided password</li>
+                        <li>Extension ID (unique per installation)</li>
+                        <li>Randomly generated device salt (stored locally)</li>
+                    </ul>
+                </li>
+                <li><strong>Result</strong>: Encrypted keys become device-specific and cannot be decrypted on different installations</li>
+            </ul>
+        </div>
+
+        <div class="layer-card">
+            <h4>Layer 3: Rate Limiting</h4>
+            <ul>
+                <li><strong>Max Attempts</strong>: 5 failed password attempts</li>
+                <li><strong>Lockout Strategy</strong>: Exponential backoff
+                    <ul>
+                        <li>1st lockout: 30 seconds</li>
+                        <li>2nd lockout: 60 seconds</li>
+                        <li>3rd lockout: 120 seconds</li>
+                        <li>Maximum lockout: 1 hour</li>
+                    </ul>
+                </li>
+                <li><strong>Attack Window</strong>: 15 minutes</li>
+                <li><strong>Storage</strong>: Rate limit state stored in <code>chrome.storage.session</code> (cleared on browser close)</li>
+            </ul>
+        </div>
+
+        <div class="layer-card">
+            <h4>Layer 4: Session Caching</h4>
+            <ul>
+                <li><strong>Cache Duration</strong>: User-configurable from 5 minutes to 6 hours (default: 30 minutes)</li>
+                <li><strong>Inactivity Timeout</strong>: User-configurable from 5 to 60 minutes (default: 15 minutes)</li>
+                <li><strong>Session Persistence</strong>: Optional setting to keep session active when sidepanel closes (default: disabled)</li>
+                <li><strong>Storage</strong>: <code>chrome.storage.session</code> (memory-only, cleared on browser close)</li>
+                <li><strong>Access Level</strong>: <code>TRUSTED_CONTEXTS</code> (not accessible to content scripts)</li>
+                <li><strong>Additional Protection</strong>: Cached keys are encrypted with an ephemeral runtime key</li>
+            </ul>
+        </div>
+
+        <div class="layer-card">
+            <h4>Layer 5: Password Requirements</h4>
+            <ul>
+                <li><strong>Minimum Length</strong>: 12 characters</li>
+                <li><strong>Complexity</strong>: At least 3 of 4 character types (uppercase, lowercase, numbers, special)</li>
+                <li><strong>Validation</strong>:
+                    <ul>
+                        <li>Common password rejection (dictionary check)</li>
+                        <li>Sequential pattern detection (e.g., "abcd", "1234")</li>
+                        <li>Excessive character repetition detection (e.g., "aaaa")</li>
+                    </ul>
+                </li>
+                <li><strong>Entropy</strong>: Minimum 72 bits recommended for API key protection</li>
+            </ul>
+        </div>
+
+        <h2>Security Features</h2>
+
+        <h3>Timing Attack Protection</h3>
+        <p>All decryption operations enforce a minimum execution time of 400ms to prevent timing-based password guessing attacks, even when keys don't exist.</p>
+
+        <h3>Error Message Safety</h3>
+        <ul>
+            <li>No distinction between "key not found" and "wrong password" timing</li>
+            <li>Generic error codes instead of detailed failure reasons</li>
+            <li>No API key content in logs or error messages</li>
+        </ul>
+
+        <h3>External Communication Blocking</h3>
+        <ul>
+            <li>All external messages from other extensions are blocked via <code>onMessageExternal</code></li>
+            <li>All external connections are blocked via <code>onConnectExternal</code></li>
+            <li>API key operations are never exposed externally</li>
+        </ul>
+
+        <h3>Session Management</h3>
+        <ul>
+            <li>Uses <code>chrome.alarms</code> API for reliable timeout handling (survives service worker restarts)</li>
+            <li>Automatic session clearing on extension suspend</li>
+            <li>SESSION_LOCKED messages notify UI when timeout occurs</li>
+            <li><strong>Configurable Settings</strong>: Session expiry (5 min to 6 hours), inactivity timeout (5 to 60 min)</li>
+            <li><strong>Validation Enforcement</strong>: Settings limits are enforced at multiple levels (UI, storage, retrieval)</li>
+        </ul>
+
+        <h2>Password Security</h2>
+
+        <h3>Validation Rules</h3>
+        <ol>
+            <li><strong>Length</strong>: 12-128 characters</li>
+            <li><strong>Character Types</strong>: Must contain at least 3 of:
+                <ul>
+                    <li>Uppercase letters (A-Z)</li>
+                    <li>Lowercase letters (a-z)</li>
+                    <li>Numbers (0-9)</li>
+                    <li>Special characters (!@#$%^&*)</li>
+                </ul>
+            </li>
+            <li><strong>Quality Checks</strong>:
+                <ul>
+                    <li>Not in common password list</li>
+                    <li>No more than 3 consecutive identical characters</li>
+                    <li>No sequential patterns (keyboard walks, alphabetical sequences)</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>Password Strength Scoring</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Score Range</th>
+                    <th>Rating</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0-29</td>
+                    <td>Weak</td>
+                    <td>Does not meet minimum requirements</td>
+                </tr>
+                <tr>
+                    <td>30-49</td>
+                    <td>Fair</td>
+                    <td>Meets minimum but could be stronger</td>
+                </tr>
+                <tr>
+                    <td>50-69</td>
+                    <td>Good</td>
+                    <td>Strong password</td>
+                </tr>
+                <tr>
+                    <td>70-100</td>
+                    <td>Strong</td>
+                    <td>Excellent password</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>API Key Validation</h2>
+
+        <h3>Supported Providers</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>Format</th>
+                    <th>Validation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OpenAI</td>
+                    <td><code>sk-*</code>, <code>sk-proj-*</code>, <code>sk-svcacct-*</code></td>
+                    <td>Regex pattern matching</td>
+                </tr>
+                <tr>
+                    <td>Anthropic</td>
+                    <td><code>sk-ant-*</code></td>
+                    <td>Strict pattern matching</td>
+                </tr>
+                <tr>
+                    <td>OpenRouter</td>
+                    <td><code>sk-or-v1-*</code></td>
+                    <td>64-character suffix verification</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Display Masking</h3>
+        <p>API keys are masked when displayed: <code>sk-pro********abc1</code></p>
+        <ul>
+            <li>Shows first 6 characters</li>
+            <li>Shows last 4 characters</li>
+            <li>Masks middle with 8 asterisks</li>
+        </ul>
+
+        <h2>Content Security Policy</h2>
+        <p>The extension enforces strict CSP to prevent injection attacks:</p>
+        <pre><code>script-src 'self';              // Only allow scripts from extension
+object-src 'none';              // Block plugins
+base-uri 'none';                // Prevent base tag hijacking
+connect-src 'self' [APIs];      // Restrict network requests
+form-action 'none';             // Prevent form submissions
+frame-ancestors 'none';         // Prevent framing</code></pre>
+
+        <h2>Cryptographic Implementation</h2>
+
+        <h3>Encryption Process</h3>
+        <ol>
+            <li>Generate random 256-bit salt</li>
+            <li>Generate random 96-bit IV</li>
+            <li>Derive encryption key using PBKDF2:
+                <ul>
+                    <li>Input: compound password (user password + device secret)</li>
+                    <li>Salt: random salt</li>
+                    <li>Iterations: 800,000</li>
+                    <li>Hash: SHA-256</li>
+                    <li>Output: 256-bit AES key</li>
+                </ul>
+            </li>
+            <li>Encrypt plaintext using AES-256-GCM</li>
+            <li>Combine: <code>salt || iv || ciphertext || auth_tag</code></li>
+            <li>Encode as base64 for storage</li>
+        </ol>
+
+        <h3>Decryption Process</h3>
+        <ol>
+            <li>Decode base64 ciphertext</li>
+            <li>Extract: salt, IV, ciphertext, auth tag</li>
+            <li>Derive decryption key using same PBKDF2 parameters</li>
+            <li>Decrypt and verify authentication tag</li>
+            <li>Return plaintext or throw DECRYPTION_ERROR</li>
+        </ol>
+
+        <h2>Threat Model &amp; Mitigations</h2>
+
+        <div class="threat-card">
+            <h4>Threat: Brute Force Password Attack</h4>
+            <div class="mitigation">
+                <strong>Mitigation:</strong>
+                <ul>
+                    <li>800,000 PBKDF2 iterations (computationally expensive)</li>
+                    <li>Rate limiting with exponential backoff</li>
+                    <li>Account lockout after 5 attempts</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="threat-card">
+            <h4>Threat: Timing Attacks</h4>
+            <div class="mitigation">
+                <strong>Mitigation:</strong>
+                <ul>
+                    <li>Minimum 400ms operation time for all decryption attempts</li>
+                    <li>Constant-time comparisons where possible</li>
+                    <li>PBKDF2 naturally normalizes timing</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="threat-card">
+            <h4>Threat: Key Extraction (Physical Access)</h4>
+            <div class="mitigation">
+                <strong>Mitigation:</strong>
+                <ul>
+                    <li>Device binding prevents cross-machine usage</li>
+                    <li>Keys never stored in plaintext</li>
+                    <li>Session cache cleared on browser close</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="threat-card">
+            <h4>Threat: Extension Reinstallation</h4>
+            <div class="mitigation">
+                <strong>Mitigation:</strong>
+                <ul>
+                    <li>New device salt generated on reinstall</li>
+                    <li>Old keys become unrecoverable (by design)</li>
+                    <li>User warnings about data loss</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="threat-card">
+            <h4>Threat: Content Script Injection</h4>
+            <div class="mitigation">
+                <strong>Mitigation:</strong>
+                <ul>
+                    <li>Session storage set to TRUSTED_CONTEXTS only</li>
+                    <li>External messaging blocked</li>
+                    <li>Strict CSP prevents code injection</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="threat-card">
+            <h4>Threat: Man-in-the-Middle (API Calls)</h4>
+            <div class="mitigation">
+                <strong>Mitigation:</strong>
+                <ul>
+                    <li>All API endpoints use HTTPS (enforced by CSP)</li>
+                    <li>Host permissions restricted to specific domains</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Compliance &amp; Standards</h2>
+        <p>This implementation follows:</p>
+        <ul>
+            <li><strong>OWASP 2024/2025</strong> cryptographic recommendations</li>
+            <li><strong>NIST SP 800-132</strong> password-based key derivation guidelines</li>
+            <li><strong>Chrome Extension MV3</strong> security best practices</li>
+            <li><strong>OWASP Top 10</strong> vulnerability prevention</li>
+        </ul>
+
+        <h2>Security Audit Checklist</h2>
+        <ul class="checklist">
+            <li>AES-256-GCM with 128-bit authentication tag</li>
+            <li>PBKDF2 with 800,000 iterations</li>
+            <li>Random IV generation (96 bits)</li>
+            <li>Random salt generation (256 bits)</li>
+            <li>HKDF for device binding</li>
+            <li>Rate limiting with exponential backoff</li>
+            <li>Session timeout (configurable: 5 min to 6 hours, default 30 min)</li>
+            <li>Inactivity timeout (configurable: 5 to 60 min, default 15 min)</li>
+            <li>Session persistence with encrypted key storage</li>
+            <li>Multi-level validation enforcement (UI, storage, retrieval)</li>
+            <li>6-hour maximum limit with security warning</li>
+            <li>Password strength validation</li>
+            <li>Common password rejection</li>
+            <li>Timing attack protection</li>
+            <li>External message blocking</li>
+            <li>Strict Content Security Policy</li>
+            <li>TRUSTED_CONTEXTS session storage</li>
+            <li>Ephemeral session key encryption</li>
+            <li>Chrome alarms for timeout persistence</li>
+        </ul>
+
+        <h2>Known Limitations</h2>
+        <ol>
+            <li><strong>JavaScript Memory</strong>: Cannot guarantee secure memory clearing due to language limitations. Garbage collector may leave traces of decrypted keys in memory.</li>
+            <li><strong>Browser Extensions</strong>: Extension storage can be accessed by users with physical access to the machine through browser developer tools (though keys are encrypted).</li>
+            <li><strong>Key Recovery</strong>: If a user forgets their password, there is no recovery mechanism. This is by design - no backdoors.</li>
+            <li><strong>Device Reinstall</strong>: Reinstalling the extension makes old encrypted keys permanently unrecoverable.</li>
+            <li><strong>Session Persistence Trade-off</strong>: When session persistence is enabled, the ephemeral session key is stored (encrypted) in session storage rather than memory-only. While still protected by encryption and device binding, this slightly reduces security in exchange for convenience.</li>
+        </ol>
+
+        <h2>Reporting Security Issues</h2>
+        <p>If you discover a security vulnerability in this implementation, please report it via:</p>
+        <ul>
+            <li>GitHub Security Advisories</li>
+        </ul>
+        <p><strong>Please do not disclose security issues publicly until they have been addressed.</strong></p>
+
+        <h2>References</h2>
+        <ul>
+            <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Key_Management_Cheat_Sheet.html" target="_blank">OWASP Key Management Cheat Sheet</a></li>
+            <li><a href="https://csrc.nist.gov/publications/detail/sp/800-132/final" target="_blank">NIST SP 800-132: Recommendation for Password-Based Key Derivation</a></li>
+            <li><a href="https://developer.chrome.com/docs/extensions/mv3/security/" target="_blank">Chrome Extension Security Best Practices</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API" target="_blank">Web Crypto API Documentation</a></li>
+        </ul>
+
+        <div class="warning-box">
+            <strong>IMPORTANT: USE AT YOUR OWN RISK</strong>
+            <p style="margin-top: 0.5rem; margin-bottom: 0;">While this extension implements industry-standard cryptographic practices and follows OWASP 2024/2025 security guidelines, <strong>no security system is completely infallible</strong>. By using this extension to store API keys, you acknowledge and accept the inherent security risks. You are solely responsible for choosing strong passwords, maintaining secure computing environments, monitoring API key usage, and rotating API keys regularly.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p><strong>Shortcuts Scanner</strong> is not affiliated with, endorsed by, or sponsored by Apple Inc.</p>
+        <p style="margin-top: 0.25rem; font-size: 0.875rem;">"Apple", "Shortcuts", and "iCloud" are trademarks of Apple Inc.</p>
+        <p style="margin-top: 1rem;">
+            <a href="index.html">Home</a> &bull;
+            <a href="privacy.html">Privacy Policy</a> &bull;
+            <a href="security.html">Security</a> &bull;
+            <a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension">GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>

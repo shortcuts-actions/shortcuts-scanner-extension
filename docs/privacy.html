@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Shortcuts Scanner</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-color: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+        }
+
+        nav {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        .page-header {
+            background: var(--bg-secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-header h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin: 1.75rem 0 0.75rem;
+            color: var(--text-color);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight-box {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #065f46;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box ul {
+            margin: 0.5rem 0 0 1.5rem;
+            color: #065f46;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Shortcuts Scanner</a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="privacy.html" class="active">Privacy Policy</a></li>
+                <li><a href="security.html">Security</a></li>
+                <li><a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Privacy Policy</h1>
+        <p class="meta">
+            <strong>Effective Date:</strong> December 29, 2025 &bull;
+            <strong>Last Updated:</strong> January 2, 2026 &bull;
+            <strong>Version:</strong> 1.0.1
+        </p>
+    </div>
+
+    <main>
+        <h2>Introduction</h2>
+        <p>Shortcuts Scanner ("the Extension", "we", "our") is a free, open-source Chrome extension that allows users to view, inspect, download, and perform AI-powered security analysis for Apple Shortcuts from iCloud.com. We are committed to protecting your privacy and being transparent about our data practices.</p>
+        <p>This Privacy Policy explains what information the Extension collects, how it is used, and your rights regarding that information.</p>
+
+        <h2>Information We Collect</h2>
+
+        <h3>Data Stored Locally on Your Device</h3>
+        <p>The Extension stores the following data locally in your browser:</p>
+
+        <ol>
+            <li><strong>API Keys</strong> (Optional)
+                <ul>
+                    <li>If you choose to use AI-powered security analysis, you may provide API keys for supported AI providers (OpenAI, Anthropic, OpenRouter)</li>
+                    <li>API keys are encrypted using AES-256-GCM encryption with PBKDF2 key derivation (800,000 iterations)</li>
+                    <li>Keys are bound to your specific browser installation using device-specific binding</li>
+                    <li>Encrypted keys are stored in Chrome's local storage</li>
+                </ul>
+            </li>
+            <li><strong>Model Preferences</strong>
+                <ul>
+                    <li>Your selected AI provider and model preferences</li>
+                    <li>Stored in browser localStorage</li>
+                </ul>
+            </li>
+            <li><strong>Analysis Results Cache</strong>
+                <ul>
+                    <li>AI security analysis results are cached locally to avoid redundant API calls</li>
+                    <li>Results are keyed by shortcut URL</li>
+                    <li>Stored in browser localStorage</li>
+                    <li>Can be cleared manually via the Extension interface</li>
+                </ul>
+            </li>
+            <li><strong>Session Settings</strong>
+                <ul>
+                    <li>Session timeout preferences (5-360 minutes)</li>
+                    <li>Device binding configuration</li>
+                    <li>Stored in browser localStorage</li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="highlight-box">
+            <h4>Data We Do NOT Collect</h4>
+            <ul>
+                <li><strong>No tracking or analytics</strong> - We do not use Google Analytics, Mixpanel, or any other analytics service</li>
+                <li><strong>No telemetry</strong> - We do not collect usage statistics or crash reports</li>
+                <li><strong>No user identification</strong> - We do not create accounts or track users across sessions</li>
+                <li><strong>No browsing history</strong> - We do not access or store your browsing history</li>
+                <li><strong>No personal information</strong> - We do not collect names, emails, or any personally identifiable information</li>
+                <li><strong>No Cookies</strong> - We do not use cookies, tracking pixels, or any similar tracking technologies</li>
+            </ul>
+        </div>
+
+        <h2>How We Use Your Information</h2>
+
+        <h3>Local Data Usage</h3>
+        <ul>
+            <li><strong>API Keys</strong>: Used solely to authenticate requests to your selected AI provider for security analysis</li>
+            <li><strong>Model Preferences</strong>: Used to remember your preferred AI model settings</li>
+            <li><strong>Session Settings</strong>: Used to configure session timeout and security behavior</li>
+            <li><strong>Cached Shortcuts</strong>: Used to improve performance when viewing the same shortcut multiple times</li>
+        </ul>
+
+        <h3>Data Transmission</h3>
+        <p>When you use the AI security analysis feature:</p>
+        <ol>
+            <li><strong>Shortcut Content</strong>: The content of the shortcut you are analyzing is sent to your selected AI provider (OpenAI, Anthropic, or OpenRouter) for security analysis</li>
+            <li><strong>API Keys</strong>: Your API key is transmitted only to the respective AI provider via secure HTTPS connection</li>
+            <li><strong>No Developer Transmission</strong>: No data is ever sent to the Extension developer or any server we control</li>
+        </ol>
+
+        <h2>Third-Party Services</h2>
+        <p>The Extension integrates with the following third-party services. When you use these services, their respective privacy policies apply:</p>
+
+        <h3>AI Providers (Optional - Only if you use AI Analysis)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>Purpose</th>
+                    <th>Privacy Policy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OpenAI</td>
+                    <td>AI-powered security analysis</td>
+                    <td><a href="https://openai.com/privacy" target="_blank">openai.com/privacy</a></td>
+                </tr>
+                <tr>
+                    <td>Anthropic</td>
+                    <td>AI-powered security analysis</td>
+                    <td><a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a></td>
+                </tr>
+                <tr>
+                    <td>OpenRouter</td>
+                    <td>AI-powered security analysis</td>
+                    <td><a href="https://openrouter.ai/privacy" target="_blank">openrouter.ai/privacy</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Apple iCloud (Required for Core Functionality)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Purpose</th>
+                    <th>Privacy Policy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>iCloud.com</td>
+                    <td>Fetch shortcut data from iCloud</td>
+                    <td><a href="https://www.apple.com/privacy/" target="_blank">apple.com/privacy</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>Important:</strong> We have no control over how these third-party services handle your data. We encourage you to review their privacy policies.
+        </div>
+
+        <h2>Data Storage and Security</h2>
+
+        <h3>Encryption</h3>
+        <ul>
+            <li><strong>Algorithm</strong>: AES-256-GCM authenticated encryption</li>
+            <li><strong>Key Derivation</strong>: PBKDF2 with 800,000 iterations (OWASP 2025 compliant)</li>
+            <li><strong>Device Binding</strong>: HKDF-based binding prevents key extraction to other devices</li>
+            <li><strong>Random Generation</strong>: Cryptographically secure random IVs and salts via Web Crypto API</li>
+        </ul>
+
+        <h3>Security Measures</h3>
+        <ul>
+            <li>All API communications use HTTPS/TLS encryption</li>
+            <li>No data is stored on external servers</li>
+            <li>Rate limiting prevents brute-force attacks on encrypted keys</li>
+            <li>Session timeouts automatically clear sensitive data from memory</li>
+            <li>Password strength validation enforces secure encryption passwords</li>
+        </ul>
+
+        <h3>Local-Only Storage</h3>
+        <p>All data remains on your device:</p>
+        <ul>
+            <li>Chrome's <code>chrome.storage.local</code> for encrypted API keys</li>
+            <li>Browser <code>localStorage</code> for preferences and analysis results cache</li>
+            <li>Browser memory for temporary shortcut cache</li>
+        </ul>
+
+        <h2>Data Retention</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Retention Period</th>
+                    <th>How to Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Encrypted API Keys</td>
+                    <td>Until you manually delete them</td>
+                    <td>Settings > Delete API Key</td>
+                </tr>
+                <tr>
+                    <td>Model Preferences</td>
+                    <td>Until you manually clear them</td>
+                    <td>Clear browser localStorage</td>
+                </tr>
+                <tr>
+                    <td>Analysis Results Cache</td>
+                    <td>Until you manually clear them</td>
+                    <td>Extension interface or clear browser localStorage</td>
+                </tr>
+                <tr>
+                    <td>Session Settings</td>
+                    <td>Until you manually clear them</td>
+                    <td>Clear browser localStorage</td>
+                </tr>
+                <tr>
+                    <td>Cached Shortcuts</td>
+                    <td>2 minutes (auto-expires)</td>
+                    <td>Close browser tab</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Your Rights</h2>
+        <p>You have full control over your data:</p>
+
+        <h3>Right to Access</h3>
+        <ul>
+            <li>View your stored preferences in the Extension settings</li>
+            <li>All data is stored locally and accessible to you</li>
+        </ul>
+
+        <h3>Right to Delete</h3>
+        <ul>
+            <li><strong>Delete API Keys</strong>: Use the Settings panel to delete stored API keys</li>
+            <li><strong>Revoke Device Binding</strong>: Delete and re-encrypt keys to reset device binding</li>
+            <li><strong>Clear All Data</strong>: Uninstall the Extension to remove all stored data</li>
+        </ul>
+
+        <h3>Right to Portability</h3>
+        <ul>
+            <li>Export shortcut data in multiple formats (JSON, XML, .shortcut)</li>
+        </ul>
+
+        <h3>Right to Opt-Out</h3>
+        <ul>
+            <li>AI analysis is completely optional</li>
+            <li>Core inspection features work without providing any API keys</li>
+            <li>No tracking to opt out of (we don't track you)</li>
+        </ul>
+
+        <h3>No Account Required</h3>
+        <ul>
+            <li>The Extension does not require account creation</li>
+            <li>No login, registration, or user identification of any kind</li>
+        </ul>
+
+        <h2>Children's Privacy</h2>
+        <p>The Extension is not directed at children under the age of 13. We do not knowingly collect personal information from children. Since we do not collect any personal information from any users, this policy applies equally to all users regardless of age.</p>
+
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. When we make changes:</p>
+        <ol>
+            <li>We will update the "Last Updated" date at the top of this policy</li>
+            <li>We will update the version number</li>
+            <li>For significant changes, we will update the Extension version</li>
+        </ol>
+        <p>We encourage you to review this Privacy Policy periodically for any changes.</p>
+
+        <h2>Contact Information</h2>
+        <p>If you have questions about this Privacy Policy or the Extension's data practices:</p>
+        <ul>
+            <li><strong>GitHub Issues</strong>: <a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension/issues">Report an issue</a></li>
+        </ul>
+
+        <h2>Additional Information</h2>
+
+        <h3>Open Source</h3>
+        <p>This Extension is open source under the Apache 2.0 License. You can review the complete source code to verify our privacy practices.</p>
+
+        <h3>Manifest V3 Compliance</h3>
+        <p>The Extension is built on Chrome's Manifest V3 platform, which provides enhanced security and privacy protections including:</p>
+        <ul>
+            <li>Limited background script capabilities</li>
+            <li>Stricter Content Security Policy</li>
+            <li>Declarative API usage</li>
+        </ul>
+
+        <h3>Permissions Explanation</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Permission</th>
+                    <th>Why We Need It</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>sidePanel</code></td>
+                    <td>Display the inspection interface</td>
+                </tr>
+                <tr>
+                    <td><code>activeTab</code></td>
+                    <td>Detect when you're viewing a shortcut on iCloud.com</td>
+                </tr>
+                <tr>
+                    <td><code>storage</code></td>
+                    <td>Store encrypted API keys locally</td>
+                </tr>
+                <tr>
+                    <td><code>alarms</code></td>
+                    <td>Handle session timeouts</td>
+                </tr>
+                <tr>
+                    <td><code>icloud.com</code></td>
+                    <td>Read shortcut data from iCloud</td>
+                </tr>
+                <tr>
+                    <td><code>icloud-content.com</code></td>
+                    <td>Download shortcut files from iCloud CDN</td>
+                </tr>
+                <tr>
+                    <td>AI Provider URLs</td>
+                    <td>Send shortcuts for AI analysis (optional)</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p><strong>Shortcuts Scanner</strong> is not affiliated with, endorsed by, or sponsored by Apple Inc.</p>
+        <p style="margin-top: 0.25rem; font-size: 0.875rem;">"Apple", "Shortcuts", and "iCloud" are trademarks of Apple Inc.</p>
+        <p style="margin-top: 1rem;">
+            <a href="index.html">Home</a> &bull;
+            <a href="privacy.html">Privacy Policy</a> &bull;
+            <a href="security.html">Security</a> &bull;
+            <a href="https://github.com/shortcuts-actions/shortcuts-scanner-extension">GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>
