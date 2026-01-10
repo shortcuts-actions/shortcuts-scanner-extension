@@ -16,7 +16,7 @@ export default function PreviewTab({ shortcut }: PreviewTabProps) {
     return (
       <VStack spacing={4} align="stretch">
         <Text fontSize="sm" color={textColor}>
-          Visual preview of the shortcut actions as they appear in iOS.
+          Visual preview of the shortcut actions as they appear in Shortcuts.
         </Text>
         <Box p={8} borderRadius="md" borderWidth="1px" borderColor={borderColor} textAlign="center">
           <Text color="gray.500" fontStyle="italic">
@@ -30,7 +30,7 @@ export default function PreviewTab({ shortcut }: PreviewTabProps) {
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="sm" color={textColor}>
-        Visual preview of the shortcut actions as they appear in iOS.
+        Visual preview of the shortcut actions as they appear in Shortcuts.
       </Text>
       <Box
         borderRadius="md"
