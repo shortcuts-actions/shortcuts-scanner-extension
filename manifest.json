@@ -17,9 +17,6 @@
     "https://openrouter.ai/*"
   ],
   "homepage_url": "https://shortcuts-actions.github.io/shortcuts-scanner-extension/",
-  "privacy_policy": {
-    "url": "https://shortcuts-actions.github.io/shortcuts-scanner-extension/privacy.html"
-  },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; connect-src 'self' https://www.icloud.com https://*.icloud-content.com https://api.openai.com https://api.anthropic.com https://openrouter.ai; form-action 'none'; frame-ancestors 'none'"
   },
