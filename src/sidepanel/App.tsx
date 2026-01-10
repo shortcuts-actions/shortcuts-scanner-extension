@@ -37,11 +37,11 @@ import { useShortcutStore } from '../stores/shortcutStore';
 import { fetchShortcutFromiCloud } from '../utils/fetcher';
 import { extractShortcutData, parsePlist } from '../utils/parser';
 import type { ChromeMessage, ParsedShortcut } from '../utils/types';
-import ActionsTab from './components/ActionsTab';
 import AnalysisTab from './components/AnalysisTab';
 import ApiKeySettings from './components/ApiKeySettings';
 import InspectorTab from './components/InspectorTab';
 import OverviewTab from './components/OverviewTab';
+import PreviewTab from './components/PreviewTab';
 import ShortcutHeader from './components/ShortcutHeader';
 import theme from './theme';
 
@@ -449,6 +449,7 @@ export function TopBar({
       bg={bgColor}
       borderBottom="1px"
       borderColor={borderColor}
+      minW="450px"
       px={4}
       py={2}
     >
@@ -773,7 +774,7 @@ function App() {
       <SettingsDrawer isOpen={isSettingsOpen} onClose={onSettingsClose} />
       <SupportDrawer isOpen={isSupportOpen} onClose={onSupportClose} />
       <HelpDrawer isOpen={isHelpOpen} onClose={onHelpClose} />
-      <Box minH="100vh" minW="350px">
+      <Box minH="100vh" minW="450px">
         <ShortcutHeader shortcut={shortcut} binaryData={binaryData} apiResponse={apiResponse} />
 
         <Container maxW="full" p={4}>
@@ -791,7 +792,7 @@ function App() {
               </TabPanel>
 
               <TabPanel p={4}>
-                <ActionsTab data={shortcut.data} />
+                <PreviewTab shortcut={shortcut} />
               </TabPanel>
 
               <TabPanel p={4}>
@@ -807,6 +808,7 @@ function App() {
                 <InspectorTab
                   apiResponse={apiResponse}
                   data={shortcut.raw}
+                  shortcutData={shortcut.data}
                   metadata={shortcut.metadata}
                 />
               </TabPanel>

@@ -1,15 +1,21 @@
 import { Divider, useColorModeValue, VStack } from '@chakra-ui/react';
-import type { ShortcutMetadata } from '../../../utils/types';
+import type { ShortcutData, ShortcutMetadata } from '../../../utils/types';
 import APIResponseSection from './APIResponseSection';
 import RawDataSection from './RawDataSection';
 
 interface InspectorTabProps {
   apiResponse: any;
   data: any;
+  shortcutData: ShortcutData;
   metadata: ShortcutMetadata;
 }
 
-export default function InspectorTab({ apiResponse, data, metadata }: InspectorTabProps) {
+export default function InspectorTab({
+  apiResponse,
+  data,
+  shortcutData,
+  metadata,
+}: InspectorTabProps) {
   const dividerColor = useColorModeValue('gray.200', 'gray.700');
 
   return (
@@ -18,7 +24,7 @@ export default function InspectorTab({ apiResponse, data, metadata }: InspectorT
 
       <Divider borderColor={dividerColor} />
 
-      <RawDataSection data={data} metadata={metadata} />
+      <RawDataSection data={data} shortcutData={shortcutData} metadata={metadata} />
     </VStack>
   );
 }

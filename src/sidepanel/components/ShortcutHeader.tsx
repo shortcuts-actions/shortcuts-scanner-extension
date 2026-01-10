@@ -137,7 +137,7 @@ export default function ShortcutHeader({ shortcut, binaryData, apiResponse }: Sh
   };
 
   return (
-    <Box bg={headerBg} borderBottom="1px" borderColor={borderColor} p={6} shadow="sm">
+    <Box bg={headerBg} borderBottom="1px" minW="450px" borderColor={borderColor} p={6} shadow="sm">
       <Flex align="center" gap={4} mb={4}>
         {metadata.icon?.downloadURL && (
           <Box w="60px" h="60px" borderRadius="lg" overflow="hidden" flexShrink={0} bg={iconBg}>

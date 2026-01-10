@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronUpIcon, InfoIcon, SearchIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Accordion,
   AccordionButton,
@@ -19,15 +19,15 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { getActionName } from '../../utils/parser';
-import type { ShortcutData } from '../../utils/types';
-import ParametersView from './ParametersView';
+import { getActionName } from '../../../utils/parser';
+import type { ShortcutData } from '../../../utils/types';
+import ParametersView from '../ParametersView';
 
-interface ActionsTabProps {
+interface DataViewProps {
   data: ShortcutData;
 }
 
-export default function ActionsTab({ data }: ActionsTabProps) {
+export default function ParsedDataView({ data }: DataViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>([]);
   const actions = data.WFWorkflowActions || [];
@@ -36,11 +36,9 @@ export default function ActionsTab({ data }: ActionsTabProps) {
   const textColor = useColorModeValue('gray.600', 'gray.400');
   const accordionBg = useColorModeValue('white', 'gray.800');
   const accordionExpandedBg = useColorModeValue('brand.50', 'gray.700');
-  const infoBgColor = useColorModeValue('blue.50', 'blue.900');
-  const infoBorderColor = useColorModeValue('blue.200', 'blue.700');
 
   // Custom replacer to handle BigInt values
-  const bigIntReplacer = (_key: string, value: any) => {
+  const bigIntReplacer = (_key: string, value: unknown) => {
     if (typeof value === 'bigint') {
       return Number(value);
     }
@@ -95,22 +93,6 @@ export default function ActionsTab({ data }: ActionsTabProps) {
           </Button>
         </ButtonGroup>
       </HStack>
-
-      <Box bg={infoBgColor} borderWidth="1px" borderColor={infoBorderColor} borderRadius="md" p={3}>
-        <HStack spacing={2} align="flex-start">
-          <InfoIcon color="blue.500" mt={0.5} />
-          <Box>
-            <Text fontSize="sm" color={textColor}>
-              Actions are displayed using Apple's internal identifiers (e.g., "Setvariable" instead
-              of "Set Variable") because that's how they're stored in the shortcut file. See the{' '}
-              <Text as="span" fontWeight="semibold">
-                Inspector
-              </Text>{' '}
-              tab to view the raw shortcut data.
-            </Text>
-          </Box>
-        </HStack>
-      </Box>
 
       <Text fontSize="sm" color={textColor}>
         Showing {filteredActions.length} of {actions.length} actions

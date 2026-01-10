@@ -32,3 +32,5 @@ documentation/
 .env
 .env.local
 /coverage
+
+scripts/
